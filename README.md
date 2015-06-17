@@ -8,6 +8,6 @@ This plugin is for the [Aurelia](http://www.aurelia.io/) platform. It sets up au
 1. In your project install the plugin via `jspm` with following command
 
   ```shell
-  jspm install service=github:moshensky/aurelia-bootsrap-services
+  jspm install service=github:moshensky/aurelia-auth-session
   ```
 
