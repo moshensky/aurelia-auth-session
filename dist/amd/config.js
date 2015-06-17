@@ -13,7 +13,7 @@ define(['exports', './locale'], function (exports, _locale) {
 
   ConfigDefaults._defaults = {
     locale: 'en-US',
-    localeResources: 'session/resources/'
+    localeResources: 'service/resources/'
   };
 
   ConfigDefaults.defaults = function () {
