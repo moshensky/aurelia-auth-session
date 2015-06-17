@@ -1,0 +1,61 @@
+{
+  "name": "aurelia-app-bootstrap-plugin",
+  "version": "0.0.1",
+  "description": "common files and config for an aurelia app using auth and webtoken",
+  "keywords": [
+    "aurelia",
+    "authorization",
+    "plugin"
+  ],
+  "homepage": "http://github.com/moshensky/aurelia-app-bootstrap-plugin",
+  "license": "MIT",
+  "author": "Nikita Moshensky <nikita@moshensky.com> (http://moshensky.com/)",
+  "main": "dist/commonjs/index.js",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/moshensky/aurelia-app-bootstrap-plugin"
+  },
+  "jspm": {
+    "main": "index",
+    "format": "register",
+    "directories": {
+      "lib": "dist/system"
+    },
+    "dependencies": {
+      "CodeSeven/toastr": "github:CodeSeven/toastr@^2.1.1",
+      "aurelia-dependency-injection": "github:aurelia/dependency-injection@^0.8.1",
+      "aurelia-http-client": "github:aurelia/http-client@^0.9.1",
+      "aurelia-router": "github:aurelia/router@^0.9.0",
+      "jquery": "github:components/jquery@^2.1.4"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.1.13",
+      "babel-runtime": "npm:babel-runtime@^5.1.13",
+      "core-js": "npm:core-js@^0.9.4",
+      "traceur": "github:jmcriffey/bower-traceur@0.0.88",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88"
+    }
+  },
+  "devDependencies": {
+    "aurelia-tools": "^0.1.0",
+    "conventional-changelog": "0.0.11",
+    "del": "^1.1.0",
+    "gulp": "^3.8.10",
+    "gulp-babel": "^5.1.0",
+    "gulp-bump": "^0.1.11",
+    "gulp-jshint": "^1.9.0",
+    "gulp-yuidoc": "^0.1.2",
+    "jasmine-core": "^2.1.3",
+    "jshint-stylish": "^1.0.0",
+    "karma": "^0.12.28",
+    "karma-babel-preprocessor": "^5.0.1",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.2",
+    "karma-jspm": "^1.1.4",
+    "object.assign": "^1.0.3",
+    "require-dir": "^0.1.0",
+    "run-sequence": "^1.0.2",
+    "vinyl-paths": "^1.0.0",
+    "yargs": "^2.1.1"
+  }
+}
