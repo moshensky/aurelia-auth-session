@@ -18,7 +18,7 @@ System.register(['./locale'], function (_export) {
 
       ConfigDefaults._defaults = {
         locale: 'en-US',
-        localeResources: 'service/resources/'
+        localeResources: 'aurelia-auth-session/resources/'
       };
 
       ConfigDefaults.defaults = function () {

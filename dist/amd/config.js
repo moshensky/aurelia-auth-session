@@ -13,7 +13,7 @@ define(['exports', './locale'], function (exports, _locale) {
 
   ConfigDefaults._defaults = {
     locale: 'en-US',
-    localeResources: 'service/resources/'
+    localeResources: 'aurelia-auth-session/resources/'
   };
 
   ConfigDefaults.defaults = function () {

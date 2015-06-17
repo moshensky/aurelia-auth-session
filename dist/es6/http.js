@@ -18,7 +18,7 @@ export class Http {
     this.locale = Locale.Repository.default;
 
     this.host = Config.httpOpts.serviceHost;
-    this.origin = this.host + 'api/';
+    this.origin = this.host + Config.httpOpts.serviceApiPrefix;
     this.authOrigin = Config.httpOpts.authHost;
     this.requestTimeout = Config.httpOpts.requestTimeout;
 

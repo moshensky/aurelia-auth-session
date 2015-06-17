@@ -19,7 +19,7 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
       this.locale = _locale.Locale.Repository['default'];
 
       this.host = _config.Config.httpOpts.serviceHost;
-      this.origin = this.host + 'api/';
+      this.origin = this.host + _config.Config.httpOpts.serviceApiPrefix;
       this.authOrigin = _config.Config.httpOpts.authHost;
       this.requestTimeout = _config.Config.httpOpts.requestTimeout;
 
