@@ -8,7 +8,7 @@ export class ConfigDefaults {
 
 ConfigDefaults._defaults = {
   locale: 'en-US',
-  localeResources: 'aurelia-auth-session/resources/'
+  localeResources: 'service/resources/'
 };
 
 ConfigDefaults.defaults = function () {

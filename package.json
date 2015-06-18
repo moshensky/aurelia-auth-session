@@ -1,5 +1,5 @@
 {
-  "name": "aurelia-app-bootstrap-plugin",
+  "name": "aurelia-auth-session",
   "version": "0.0.1",
   "description": "common files and config for an aurelia app using auth and webtoken",
   "keywords": [
@@ -7,13 +7,13 @@
     "authorization",
     "plugin"
   ],
-  "homepage": "http://github.com/moshensky/aurelia-app-bootstrap-plugin",
+  "homepage": "http://github.com/moshensky/aurelia-auth-session",
   "license": "MIT",
   "author": "Nikita Moshensky <nikita@moshensky.com> (http://moshensky.com/)",
   "main": "dist/commonjs/index.js",
   "repository": {
     "type": "git",
-    "url": "http://github.com/moshensky/aurelia-app-bootstrap-plugin"
+    "url": "http://github.com/moshensky/aurelia-auth-session"
   },
   "jspm": {
     "main": "index",

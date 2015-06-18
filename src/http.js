@@ -18,7 +18,7 @@ export class Http {
     this.locale = Locale.Repository.default;
 
     this.host = Config.httpOpts.serviceHost;
-    this.origin = this.host + 'api/';
+    this.origin = this.host + Config.httpOpts.serviceApiPrefix;
     this.authOrigin = Config.httpOpts.authHost;
     this.requestTimeout = Config.httpOpts.requestTimeout;
 
@@ -88,19 +88,27 @@ export class Http {
   }
 
   postDownloadFile(url, data) {
-    const urlAddress = `${this.host}api/${url}`;
+    return downloadFile(url, 'POST', data);
+  }
+
+  getDownloadFile(url) {
+    return downloadFile(url, 'GET');
+  }
+
+  downloadFile(url, method, data) {
+    const urlAddress = this.origin + url;
     const authHeaderValue = `Bearer ${this.token}`;
     const promise = new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('POST', urlAddress, true);
-      xmlhttp.timeout = this.requestTimeout;
+      xmlhttp.open(method, urlAddress, true);
+      xmlhttp.timeout = requestTimeout;
       xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
       xmlhttp.setRequestHeader('Authorization', authHeaderValue);
       xmlhttp.responseType = "blob";
 
-      xmlhttp.onload = function (oEvent) {
+      xmlhttp.onload = function(oEvent) {
         if (this.status !== 200) {
-          reject({statusCode: this.status});
+          reject({ statusCode: this.status });
           return;
         }
 
@@ -119,17 +127,20 @@ export class Http {
       };
 
       xmlhttp.ontimeout = function () {
-        reject({timeout: true})
+          reject({timeout: true})
       };
 
       xmlhttp.addEventListener("error", () => {
-        // todo: when does this got triggered?
-        reject()
+        reject();
       });
-      xmlhttp.addEventListener("load", () => {
-        resolve();
-      });
-      xmlhttp.send(JSON.stringify(data));
+      xmlhttp.addEventListener("load", () => { resolve(); });
+      if (method === 'GET') {
+        xmlhttp.send();
+      } else if (method === 'POST') {
+        xmlhttp.send(JSON.stringify(data));
+      } else {
+        throw new Error("Unsuported method call!");
+      }
     });
 
     promise.catch(this.errorHandler.bind(this));

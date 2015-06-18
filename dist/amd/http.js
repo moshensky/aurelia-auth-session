@@ -19,7 +19,7 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
       this.locale = _locale.Locale.Repository['default'];
 
       this.host = _config.Config.httpOpts.serviceHost;
-      this.origin = this.host + 'api/';
+      this.origin = this.host + _config.Config.httpOpts.serviceApiPrefix;
       this.authOrigin = _config.Config.httpOpts.authHost;
       this.requestTimeout = _config.Config.httpOpts.requestTimeout;
 
@@ -94,14 +94,20 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
     };
 
     _Http.prototype.postDownloadFile = function postDownloadFile(url, data) {
-      var _this = this;
+      return downloadFile(url, 'POST', data);
+    };
 
-      var urlAddress = '' + this.host + 'api/' + url;
+    _Http.prototype.getDownloadFile = function getDownloadFile(url) {
+      return downloadFile(url, 'GET');
+    };
+
+    _Http.prototype.downloadFile = function downloadFile(url, method, data) {
+      var urlAddress = this.origin + url;
       var authHeaderValue = 'Bearer ' + this.token;
       var promise = new Promise(function (resolve, reject) {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open('POST', urlAddress, true);
-        xmlhttp.timeout = _this.requestTimeout;
+        xmlhttp.open(method, urlAddress, true);
+        xmlhttp.timeout = requestTimeout;
         xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         xmlhttp.setRequestHeader('Authorization', authHeaderValue);
         xmlhttp.responseType = 'blob';
@@ -136,7 +142,13 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
         xmlhttp.addEventListener('load', function () {
           resolve();
         });
-        xmlhttp.send(JSON.stringify(data));
+        if (method === 'GET') {
+          xmlhttp.send();
+        } else if (method === 'POST') {
+          xmlhttp.send(JSON.stringify(data));
+        } else {
+          throw new Error('Unsuported method call!');
+        }
       });
 
       promise['catch'](this.errorHandler.bind(this));
@@ -150,7 +162,7 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
     };
 
     _Http.prototype.loginResourceOwner = function loginResourceOwner(email, pass) {
-      var _this2 = this;
+      var _this = this;
 
       var data = {
         grant_type: 'password',
@@ -159,7 +171,7 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
       };
 
       var client = new _aureliaHttpClient.HttpClient().configure(function (x) {
-        x.withBaseUrl(_this2.authOrigin);
+        x.withBaseUrl(_this.authOrigin);
         x.withHeader('Content-Type', 'application/x-www-form-urlencoded');
       });
 
@@ -171,11 +183,11 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
     };
 
     _Http.prototype.initAuthHttp = function initAuthHttp(token) {
-      var _this3 = this;
+      var _this2 = this;
 
       this.token = token;
       this.authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
-        x.withBaseUrl(_this3.origin);
+        x.withBaseUrl(_this2.origin);
         x.withHeader('Authorization', 'Bearer ' + token);
         x.withHeader('Content-Type', 'application/json');
       });
