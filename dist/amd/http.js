@@ -94,11 +94,11 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
     };
 
     _Http.prototype.postDownloadFile = function postDownloadFile(url, data) {
-      return downloadFile(url, 'POST', data);
+      return this.downloadFile(url, 'POST', data);
     };
 
     _Http.prototype.getDownloadFile = function getDownloadFile(url) {
-      return downloadFile(url, 'GET');
+      return this.downloadFile(url, 'GET');
     };
 
     _Http.prototype.downloadFile = function downloadFile(url, method, data) {

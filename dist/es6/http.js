@@ -88,11 +88,11 @@ export class Http {
   }
 
   postDownloadFile(url, data) {
-    return downloadFile(url, 'POST', data);
+    return this.downloadFile(url, 'POST', data);
   }
 
   getDownloadFile(url) {
-    return downloadFile(url, 'GET');
+    return this.downloadFile(url, 'GET');
   }
 
   downloadFile(url, method, data) {
