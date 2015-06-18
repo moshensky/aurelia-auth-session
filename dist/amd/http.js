@@ -66,12 +66,12 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
     };
 
     _Http.prototype.multipartFormPost = function multipartFormPost(url, data) {
-      var requestUrl = thos.origin + url;
+      var requestUrl = this.origin + url;
       return this.multipartForm(requestUrl, data, 'POST');
     };
 
     _Http.prototype.multipartFormPut = function multipartFormPut(url, data) {
-      var requestUrl = thos.origin + url;
+      var requestUrl = this.origin + url;
       return this.multipartForm(requestUrl, data, 'PUT');
     };
 

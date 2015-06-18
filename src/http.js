@@ -60,12 +60,12 @@ export class Http {
   }
 
   multipartFormPost(url, data) {
-    var requestUrl = thos.origin + url;
+    var requestUrl = this.origin + url;
     return this.multipartForm(requestUrl, data, 'POST');
   }
 
   multipartFormPut(url, data) {
-    var requestUrl = thos.origin + url;
+    var requestUrl = this.origin + url;
     return this.multipartForm(requestUrl, data, 'PUT');
   }
 
