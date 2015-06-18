@@ -101,7 +101,7 @@ export class Http {
     const promise = new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.open(method, urlAddress, true);
-      xmlhttp.timeout = requestTimeout;
+      xmlhttp.timeout = this.requestTimeout;
       xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
       xmlhttp.setRequestHeader('Authorization', authHeaderValue);
       xmlhttp.responseType = "blob";

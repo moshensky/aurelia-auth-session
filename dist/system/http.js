@@ -115,12 +115,14 @@ System.register(['aurelia-http-client', 'jquery', 'aurelia-dependency-injection'
         };
 
         _Http.prototype.downloadFile = function downloadFile(url, method, data) {
+          var _this = this;
+
           var urlAddress = this.origin + url;
           var authHeaderValue = 'Bearer ' + this.token;
           var promise = new Promise(function (resolve, reject) {
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open(method, urlAddress, true);
-            xmlhttp.timeout = requestTimeout;
+            xmlhttp.timeout = _this.requestTimeout;
             xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
             xmlhttp.setRequestHeader('Authorization', authHeaderValue);
             xmlhttp.responseType = 'blob';
@@ -175,7 +177,7 @@ System.register(['aurelia-http-client', 'jquery', 'aurelia-dependency-injection'
         };
 
         _Http.prototype.loginResourceOwner = function loginResourceOwner(email, pass) {
-          var _this = this;
+          var _this2 = this;
 
           var data = {
             grant_type: 'password',
@@ -184,7 +186,7 @@ System.register(['aurelia-http-client', 'jquery', 'aurelia-dependency-injection'
           };
 
           var client = new HttpClient().configure(function (x) {
-            x.withBaseUrl(_this.authOrigin);
+            x.withBaseUrl(_this2.authOrigin);
             x.withHeader('Content-Type', 'application/x-www-form-urlencoded');
           });
 
@@ -196,11 +198,11 @@ System.register(['aurelia-http-client', 'jquery', 'aurelia-dependency-injection'
         };
 
         _Http.prototype.initAuthHttp = function initAuthHttp(token) {
-          var _this2 = this;
+          var _this3 = this;
 
           this.token = token;
           this.authHttp = new HttpClient().configure(function (x) {
-            x.withBaseUrl(_this2.origin);
+            x.withBaseUrl(_this3.origin);
             x.withHeader('Authorization', 'Bearer ' + token);
             x.withHeader('Content-Type', 'application/json');
           });
