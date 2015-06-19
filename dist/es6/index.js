@@ -8,14 +8,10 @@ export {AccessRightsAuthorizeStep, RolesAuthorizeStep} from './authorize-steps';
 export function configure(aurelia, configCallback) {
   const config = new Config();
 
-  //aurelia.globalizeResources('./validation/validate-custom-attribute');
-
   if(configCallback !== undefined && typeof(configCallback) === 'function')
   {
     configCallback(config);
   }
-
-  //aurelia.withSingleton(Config, config);
 
   return config.locale();
 }

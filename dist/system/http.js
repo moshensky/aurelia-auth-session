@@ -173,7 +173,11 @@ System.register(['aurelia-http-client', 'jquery', 'aurelia-dependency-injection'
         _Http.prototype.loginBasicAuth = function loginBasicAuth(email, pass) {
           var client = new HttpClient();
           var encodedData = window.btoa(email + ':' + pass);
-          return client.createRequest('token').asGet().withBaseUrl(this.authOrigin).withHeader('Authorization', 'Basic ' + encodedData).send().then(this.loginHandle.bind(this))['catch'](this.errorHandler.bind(this));
+          var promise = client.createRequest('token').asGet().withBaseUrl(this.authOrigin).withHeader('Authorization', 'Basic ' + encodedData).send();
+          promise.then(this.loginHandle.bind(this));
+          promise['catch'](this.errorHandler.bind(this));
+
+          return promise;
         };
 
         _Http.prototype.loginResourceOwner = function loginResourceOwner(email, pass) {

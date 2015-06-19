@@ -150,13 +150,15 @@ export class Http {
   loginBasicAuth(email, pass) {
     let client = new HttpClient();
     let encodedData = window.btoa(email + ':' + pass);
-    return client.createRequest('token')
+    let promise = client.createRequest('token')
       .asGet()
       .withBaseUrl(this.authOrigin)
       .withHeader('Authorization', 'Basic ' + encodedData)
-      .send()
-      .then(this.loginHandle.bind(this))
-      .catch(this.errorHandler.bind(this));
+      .send();
+    promise.then(this.loginHandle.bind(this))
+    promise.catch(this.errorHandler.bind(this));
+
+    return promise;
   }
 
   loginResourceOwner(email, pass) {
