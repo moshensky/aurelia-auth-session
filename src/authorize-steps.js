@@ -56,7 +56,7 @@ export class AccessRightsAuthorizeStep {
 
     let neededAccessRights = routingContext.nextInstructions.reduce((acc, i) => {
       if (i.config.accessRight) {
-        return acc.push(i.config.accessRight);
+        acc.push(i.config.accessRight);
       }
 
       return acc;
