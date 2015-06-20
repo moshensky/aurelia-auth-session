@@ -77,7 +77,7 @@ var AccessRightsAuthorizeStep = (function () {
 
     var neededAccessRights = routingContext.nextInstructions.reduce(function (acc, i) {
       if (i.config.accessRight) {
-        return acc.push(i.config.accessRight);
+        acc.push(i.config.accessRight);
       }
 
       return acc;

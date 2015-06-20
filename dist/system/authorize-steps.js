@@ -81,7 +81,7 @@ System.register(['aurelia-dependency-injection', './session', './logger', './loc
 
           var neededAccessRights = routingContext.nextInstructions.reduce(function (acc, i) {
             if (i.config.accessRight) {
-              return acc.push(i.config.accessRight);
+              acc.push(i.config.accessRight);
             }
 
             return acc;
