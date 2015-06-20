@@ -69,6 +69,7 @@ System.register(['aurelia-dependency-injection', './session', './logger', './loc
           this.session = session;
           this.logger = logger;
           this.locale = Locale.Repository['default'];
+          this.loginRoute = Config.routerAuthStepOpts.loginRoute;
         }
 
         var _AccessRightsAuthorizeStep = AccessRightsAuthorizeStep;

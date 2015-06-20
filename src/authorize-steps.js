@@ -46,6 +46,7 @@ export class AccessRightsAuthorizeStep {
     this.session = session;
     this.logger = logger;
     this.locale = Locale.Repository.default;
+    this.loginRoute = Config.routerAuthStepOpts.loginRoute;
   }
 
   run(routingContext, next) {

@@ -54,6 +54,7 @@ define(['exports', 'aurelia-dependency-injection', './session', './logger', './l
       this.session = session;
       this.logger = logger;
       this.locale = _locale.Locale.Repository['default'];
+      this.loginRoute = _config.Config.routerAuthStepOpts.loginRoute;
     }
 
     var _AccessRightsAuthorizeStep = AccessRightsAuthorizeStep;

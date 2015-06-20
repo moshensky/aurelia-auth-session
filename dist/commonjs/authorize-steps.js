@@ -65,6 +65,7 @@ var AccessRightsAuthorizeStep = (function () {
     this.session = session;
     this.logger = logger;
     this.locale = _locale.Locale.Repository['default'];
+    this.loginRoute = _config.Config.routerAuthStepOpts.loginRoute;
   }
 
   var _AccessRightsAuthorizeStep = AccessRightsAuthorizeStep;
