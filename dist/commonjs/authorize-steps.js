@@ -52,7 +52,7 @@ var RolesAuthorizeStep = (function () {
     return next();
   };
 
-  RolesAuthorizeStep = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(RolesAuthorizeStep) || RolesAuthorizeStep;
+  RolesAuthorizeStep = _aureliaDependencyInjection.inject(_session.Session, _logger.Logger)(RolesAuthorizeStep) || RolesAuthorizeStep;
   return RolesAuthorizeStep;
 })();
 
@@ -94,7 +94,7 @@ var AccessRightsAuthorizeStep = (function () {
     return next();
   };
 
-  AccessRightsAuthorizeStep = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(AccessRightsAuthorizeStep) || AccessRightsAuthorizeStep;
+  AccessRightsAuthorizeStep = _aureliaDependencyInjection.inject(_session.Session, _logger.Logger)(AccessRightsAuthorizeStep) || AccessRightsAuthorizeStep;
   return AccessRightsAuthorizeStep;
 })();
 

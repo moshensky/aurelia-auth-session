@@ -116,7 +116,11 @@ var Session = (function () {
     return token;
   };
 
-  Session = (0, _aureliaDependencyInjection.inject)(_aureliaRouter.Router, _logger.Logger)(Session) || Session;
+  _Session.prototype.getUserName = function getUserName() {
+    return this.userName;
+  };
+
+  Session = _aureliaDependencyInjection.inject(_aureliaRouter.Router, _logger.Logger)(Session) || Session;
   return Session;
 })();
 

@@ -138,10 +138,10 @@ var Http = (function () {
         var url = windowUrl.createObjectURL(blob);
         var filename = this.getResponseHeader('Content-Disposition').match(/^attachment; filename=(.+)/)[1];
 
-        var anchor = (0, _jquery2['default'])('<a></a>');
+        var anchor = _jquery2['default']('<a></a>');
         anchor.prop('href', url);
         anchor.prop('download', filename);
-        (0, _jquery2['default'])('body').append(anchor);
+        _jquery2['default']('body').append(anchor);
         anchor.get(0).click();
         windowUrl.revokeObjectURL(url);
         anchor.remove();
@@ -249,7 +249,7 @@ var Http = (function () {
     }
   };
 
-  Http = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(Http) || Http;
+  Http = _aureliaDependencyInjection.inject(_session.Session, _logger.Logger)(Http) || Http;
   return Http;
 })();
 
