@@ -120,6 +120,10 @@ System.register(['aurelia-dependency-injection', 'aurelia-router', './logger'], 
           return token;
         };
 
+        _Session.prototype.getUserName = function getUserName() {
+          return this.userName;
+        };
+
         Session = inject(Router, Logger)(Session) || Session;
         return Session;
       })();

@@ -105,5 +105,9 @@ export class Session {
     const token = JSON.parse(localStorage[constant.appData]).token;
     return token;
   }
+  
+  getUserName() {
+      return this.userName;
+  }
 }
 
