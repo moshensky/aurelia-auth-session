@@ -224,7 +224,7 @@ export class Http {
     } else if (response.timeout === true) {
       this.logger.error(this.locale.translate('requestTimeout'));
     } else {
-      this.logger.error('TODO: Implement ajax fails!');
+      this.logger.error(this.locale.translate('errorHappend'));
     }
   }
 }

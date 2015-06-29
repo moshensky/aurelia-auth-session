@@ -41,7 +41,7 @@ define(['exports', 'aurelia-dependency-injection', './session', './logger', './l
       return next();
     };
 
-    RolesAuthorizeStep = _aureliaDependencyInjection.inject(_session.Session, _logger.Logger)(RolesAuthorizeStep) || RolesAuthorizeStep;
+    RolesAuthorizeStep = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(RolesAuthorizeStep) || RolesAuthorizeStep;
     return RolesAuthorizeStep;
   })();
 
@@ -83,7 +83,7 @@ define(['exports', 'aurelia-dependency-injection', './session', './logger', './l
       return next();
     };
 
-    AccessRightsAuthorizeStep = _aureliaDependencyInjection.inject(_session.Session, _logger.Logger)(AccessRightsAuthorizeStep) || AccessRightsAuthorizeStep;
+    AccessRightsAuthorizeStep = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(AccessRightsAuthorizeStep) || AccessRightsAuthorizeStep;
     return AccessRightsAuthorizeStep;
   })();
 

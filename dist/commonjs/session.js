@@ -120,7 +120,7 @@ var Session = (function () {
     return this.userName;
   };
 
-  Session = _aureliaDependencyInjection.inject(_aureliaRouter.Router, _logger.Logger)(Session) || Session;
+  Session = (0, _aureliaDependencyInjection.inject)(_aureliaRouter.Router, _logger.Logger)(Session) || Session;
   return Session;
 })();
 

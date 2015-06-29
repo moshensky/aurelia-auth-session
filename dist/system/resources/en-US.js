@@ -12,7 +12,8 @@ System.register([], function (_export) {
           internalServerError: 'Internal Server Error!',
           requestTimeout: 'Request Timeout!',
           notAuthorized: 'You are not authorized!',
-          pleaseLogin: 'Please login!'
+          pleaseLogin: 'Please login!',
+          errorHappend: 'Upss... Error!'
         }
       };
 
