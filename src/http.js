@@ -183,7 +183,7 @@ export class Http {
 
   initAuthHttp(token) {
     this.token = token;
-    this.authHttp = getAuthHttpFor(this.origin);
+    this.authHttp = this.getAuthHttpFor(this.origin);
    }
 
   getAuthHttpFor(host) {

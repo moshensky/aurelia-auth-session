@@ -203,7 +203,7 @@ var Http = (function () {
 
   _Http.prototype.initAuthHttp = function initAuthHttp(token) {
     this.token = token;
-    this.authHttp = getAuthHttpFor(this.origin);
+    this.authHttp = this.getAuthHttpFor(this.origin);
   };
 
   _Http.prototype.getAuthHttpFor = function getAuthHttpFor(host) {
