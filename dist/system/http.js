@@ -34,6 +34,7 @@ System.register(['aurelia-http-client', 'jquery', 'aurelia-dependency-injection'
           this.host = Config.httpOpts.serviceHost;
           this.origin = this.host + Config.httpOpts.serviceApiPrefix;
           this.authOrigin = Config.httpOpts.authHost;
+          this.hosts = Config.httpOpts.hosts || {};
           this.requestTimeout = Config.httpOpts.requestTimeout;
 
           if (this.session.userRemembered()) {
@@ -206,11 +207,11 @@ System.register(['aurelia-http-client', 'jquery', 'aurelia-dependency-injection'
           this.authHttp = this.getAuthHttpFor(this.origin);
         };
 
-        _Http.prototype.getAuthHttpFor = function getAuthHttpFor(host) {
+        _Http.prototype.getAuthHttpFor = function getAuthHttpFor(hostName) {
           var _this3 = this;
 
           var authHttp = new HttpClient().configure(function (x) {
-            x.withBaseUrl(host);
+            x.withBaseUrl(_this3.hosts.hostName);
             x.withHeader('Authorization', 'Bearer ' + _this3.token);
             x.withHeader('Content-Type', 'application/json');
           });

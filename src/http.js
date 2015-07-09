@@ -20,6 +20,7 @@ export class Http {
     this.host = Config.httpOpts.serviceHost;
     this.origin = this.host + Config.httpOpts.serviceApiPrefix;
     this.authOrigin = Config.httpOpts.authHost;
+    this.hosts = Config.httpOpts.hosts || {};
     this.requestTimeout = Config.httpOpts.requestTimeout;
 
     if (this.session.userRemembered()) {
@@ -186,9 +187,9 @@ export class Http {
     this.authHttp = this.getAuthHttpFor(this.origin);
    }
 
-  getAuthHttpFor(host) {
+  getAuthHttpFor(hostName) {
     let authHttp = new HttpClient().configure(x => {
-      x.withBaseUrl(host);
+      x.withBaseUrl(this.hosts.hostName);
       x.withHeader('Authorization', `Bearer ${this.token}`);
       x.withHeader("Content-Type", "application/json");
     });
