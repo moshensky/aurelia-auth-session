@@ -193,7 +193,7 @@ export class Http {
 
   getAuthHttpFor(hostName) {
     let authHttp = new HttpClient().configure(x => {
-      x.withBaseUrl(this.hosts.hostName);
+      x.withBaseUrl(this.hosts[hostName]);
       x.withHeader('Authorization', `Bearer ${this.token}`);
       x.withHeader("Content-Type", "application/json");
     });

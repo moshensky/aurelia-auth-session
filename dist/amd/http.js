@@ -204,7 +204,7 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
       var _this4 = this;
 
       var authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
-        x.withBaseUrl(_this4.hosts.hostName);
+        x.withBaseUrl(_this4.hosts[hostName]);
         x.withHeader('Authorization', 'Bearer ' + _this4.token);
         x.withHeader('Content-Type', 'application/json');
       });
