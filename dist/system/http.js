@@ -203,16 +203,22 @@ System.register(['aurelia-http-client', 'jquery', 'aurelia-dependency-injection'
         };
 
         _Http.prototype.initAuthHttp = function initAuthHttp(token) {
+          var _this3 = this;
+
           this.token = token;
-          this.authHttp = this.getAuthHttpFor(this.origin);
+          this.authHttp = new HttpClient().configure(function (x) {
+            x.withBaseUrl(_this3.origin);
+            x.withHeader('Authorization', 'Bearer ' + _this3.token);
+            x.withHeader('Content-Type', 'application/json');
+          });
         };
 
         _Http.prototype.getAuthHttpFor = function getAuthHttpFor(hostName) {
-          var _this3 = this;
+          var _this4 = this;
 
           var authHttp = new HttpClient().configure(function (x) {
-            x.withBaseUrl(_this3.hosts.hostName);
-            x.withHeader('Authorization', 'Bearer ' + _this3.token);
+            x.withBaseUrl(_this4.hosts.hostName);
+            x.withHeader('Authorization', 'Bearer ' + _this4.token);
             x.withHeader('Content-Type', 'application/json');
           });
 
