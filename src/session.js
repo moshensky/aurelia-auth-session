@@ -24,7 +24,6 @@ export class Session {
   }
 
   initUserData() {
-    this.userId = null;
     this.userName = null;
     this.userClaims = [];
     this.userRoles = [];
@@ -66,8 +65,8 @@ export class Session {
     });
   }
 
-  userHasClaim() {
-    throw new Error('Unimplemented method!');
+  getUserClaim(claimType) {
+    return this.userClaims[claimType];
   }
 
   isUserLoggedIn() {
@@ -82,9 +81,11 @@ export class Session {
   restoreData() {
     const data = JSON.parse(localStorage[constant.appData]);
 
-    this.userId = data.userId;
     this.userName = data.userName;
-    this.userClaims = data.userClaims;
+    this.userClaims = data.userClaims.reduce(function (hash, userClaim) {
+      hash[userClaim.type] = userClaim.value;
+      return hash;
+    }, {});
     this.userRoles = data.userRoles.reduce((hash, userRole) => {
       hash[userRole] = true;
       return hash;
