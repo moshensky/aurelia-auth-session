@@ -23,16 +23,18 @@
     },
     "dependencies": {
       "CodeSeven/toastr": "github:CodeSeven/toastr@^2.1.1",
-      "aurelia-dependency-injection": "github:aurelia/dependency-injection@^0.8.1",
-      "aurelia-http-client": "github:aurelia/http-client@^0.9.1",
-      "aurelia-router": "github:aurelia/router@^0.9.0",
-      "jquery": "github:components/jquery@^2.1.4"
+      "aurelia-dependency-injection": "github:aurelia/dependency-injection@^0.9.0",
+      "aurelia-http-client": "github:aurelia/http-client@^0.10.0",
+      "aurelia-router": "github:aurelia/router@^0.10.1",
+      "jquery": "github:components/jquery@^2.1.4",
+      "traceur": "github:jmcriffey/bower-traceur@^0.0.90",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@^0.0.90"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.1.13",
       "babel-runtime": "npm:babel-runtime@^5.1.13",
       "core-js": "npm:core-js@^0.9.4",
-      "traceur": "github:jmcriffey/bower-traceur@0.0.88",
+      "traceur": "github:jmcriffey/bower-traceur@^0.0.90",
       "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88"
     }
   },
