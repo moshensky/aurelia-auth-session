@@ -226,10 +226,15 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
       var token = data.access_token;
       this.initAuthHttp(token);
 
+      var claims = data.userClaims || [];
+      if (typeof claims === 'string') {
+        claims = JSON.parse(claims);
+      }
+
       this.session.setUser({
         token: token,
         userName: data.userName || 'please give me a name!',
-        userClaims: data.userClaims || [],
+        userClaims: claims,
         userRoles: this._convertToArray(data.userRoles),
         userAccessRights: this._convertToArray(data.userAccessRights)
       });
