@@ -8,15 +8,18 @@ import {Session} from './session';
 import {Logger} from './logger';
 import {Locale} from './locale';
 import {Config} from './config';
+import {LoadingMask} from './loadingMask';
 
-@inject(Session, Logger)
+@inject(Session, Logger, LoadingMask)
 export class Http {
-  constructor(session, logger) {
+  constructor(session, logger, loadingMask) {
     this.session = session;
     this.logger = logger;
+    this.loadingMask = loadingMask;
     this.authHttp = undefined;
     this.locale = Locale.Repository.default;
 
+    this.requestsCount = 0;
     this.host = Config.httpOpts.serviceHost;
     this.origin = this.host + Config.httpOpts.serviceApiPrefix;
     this.authOrigin = Config.httpOpts.authHost;
@@ -28,11 +31,22 @@ export class Http {
     }
   }
 
+  _hideLoadingMask() {
+    if(this.requestsCount === 0) {
+      this.loadingMask.hide();
+    }
+  }
+
   get(url) {
+    this.loadingMask.show();
     const promise = this.authHttp.get(url).then(response => {
+      this._hideLoadingMask();
       return JSON.parse(response.response)
     });
-    promise.catch(this.errorHandler.bind(this));
+    promise.catch(() => {
+      this._hideLoadingMask();
+      this.errorHandler.bind(this);
+    });
     return promise;
   }
 

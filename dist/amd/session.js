@@ -23,9 +23,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-router', './logger']
       }
     }
 
-    var _Session = Session;
-
-    _Session.prototype.initUserData = function initUserData() {
+    Session.prototype.initUserData = function initUserData() {
       this.userName = null;
       this.userClaims = [];
       this.userRoles = [];
@@ -35,23 +33,23 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-router', './logger']
       this.isBusy = false;
     };
 
-    _Session.prototype.setUser = function setUser(data) {
+    Session.prototype.setUser = function setUser(data) {
       if (data) {
         localStorage[constant.appData] = JSON.stringify(data);
         this.restoreData();
       }
     };
 
-    _Session.prototype.clearUser = function clearUser() {
+    Session.prototype.clearUser = function clearUser() {
       localStorage.clear();
       this.initUserData();
     };
 
-    _Session.prototype.userHasAccessRight = function userHasAccessRight(requiredAccessRight) {
+    Session.prototype.userHasAccessRight = function userHasAccessRight(requiredAccessRight) {
       return this.userAccessRights[requiredAccessRight] === true;
     };
 
-    _Session.prototype.userHasAllAccessRights = function userHasAllAccessRights(requiredAccessRights) {
+    Session.prototype.userHasAllAccessRights = function userHasAllAccessRights(requiredAccessRights) {
       var _this = this;
 
       return requiredAccessRights.every(function (accessRight) {
@@ -59,11 +57,11 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-router', './logger']
       });
     };
 
-    _Session.prototype.userHasRole = function userHasRole(requredRole) {
+    Session.prototype.userHasRole = function userHasRole(requredRole) {
       return this.userRoles[requredRole] === true;
     };
 
-    _Session.prototype.userHasAtLeastOneRole = function userHasAtLeastOneRole(requiredRoles) {
+    Session.prototype.userHasAtLeastOneRole = function userHasAtLeastOneRole(requiredRoles) {
       var _this2 = this;
 
       return requiredRoles.some(function (requiredRole) {
@@ -71,20 +69,20 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-router', './logger']
       });
     };
 
-    _Session.prototype.getUserClaim = function getUserClaim(claimType) {
+    Session.prototype.getUserClaim = function getUserClaim(claimType) {
       return this.userClaims[claimType];
     };
 
-    _Session.prototype.isUserLoggedIn = function isUserLoggedIn() {
+    Session.prototype.isUserLoggedIn = function isUserLoggedIn() {
       return this.isLoggedIn === true;
     };
 
-    _Session.prototype.userRemembered = function userRemembered() {
+    Session.prototype.userRemembered = function userRemembered() {
       var isInLocalStorage = localStorage[constant.appData] !== undefined;
       return isInLocalStorage;
     };
 
-    _Session.prototype.restoreData = function restoreData() {
+    Session.prototype.restoreData = function restoreData() {
       var data = JSON.parse(localStorage[constant.appData]);
 
       this.userName = data.userName;
@@ -107,16 +105,17 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-router', './logger']
       this.router.navigate('');
     };
 
-    _Session.prototype.rememberedToken = function rememberedToken() {
+    Session.prototype.rememberedToken = function rememberedToken() {
       var token = JSON.parse(localStorage[constant.appData]).token;
       return token;
     };
 
-    _Session.prototype.getUserName = function getUserName() {
+    Session.prototype.getUserName = function getUserName() {
       return this.userName;
     };
 
-    Session = (0, _aureliaDependencyInjection.inject)(_aureliaRouter.Router, _logger.Logger)(Session) || Session;
+    var _Session = Session;
+    Session = _aureliaDependencyInjection.inject(_aureliaRouter.Router, _logger.Logger)(Session) || Session;
     return Session;
   })();
 

@@ -15,9 +15,7 @@ define(['exports', 'aurelia-dependency-injection', './session', './logger', './l
       this.loginRoute = _config.Config.routerAuthStepOpts.loginRoute;
     }
 
-    var _RolesAuthorizeStep = RolesAuthorizeStep;
-
-    _RolesAuthorizeStep.prototype.run = function run(routingContext, next) {
+    RolesAuthorizeStep.prototype.run = function run(routingContext, next) {
       var _this = this;
 
       if (!this.session.isUserLoggedIn() && routingContext.nextInstruction.config.route !== this.loginRoute) {
@@ -41,7 +39,8 @@ define(['exports', 'aurelia-dependency-injection', './session', './logger', './l
       return next();
     };
 
-    RolesAuthorizeStep = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(RolesAuthorizeStep) || RolesAuthorizeStep;
+    var _RolesAuthorizeStep = RolesAuthorizeStep;
+    RolesAuthorizeStep = _aureliaDependencyInjection.inject(_session.Session, _logger.Logger)(RolesAuthorizeStep) || RolesAuthorizeStep;
     return RolesAuthorizeStep;
   })();
 
@@ -57,9 +56,7 @@ define(['exports', 'aurelia-dependency-injection', './session', './logger', './l
       this.loginRoute = _config.Config.routerAuthStepOpts.loginRoute;
     }
 
-    var _AccessRightsAuthorizeStep = AccessRightsAuthorizeStep;
-
-    _AccessRightsAuthorizeStep.prototype.run = function run(routingContext, next) {
+    AccessRightsAuthorizeStep.prototype.run = function run(routingContext, next) {
       if (!this.session.isUserLoggedIn() && routingContext.nextInstruction.config.route !== this.loginRoute) {
         this.logger.warn(this.locale.translate('pleaseLogin'));
         return next.cancel(new _aureliaRouter.Redirect(this.loginRoute));
@@ -83,7 +80,8 @@ define(['exports', 'aurelia-dependency-injection', './session', './logger', './l
       return next();
     };
 
-    AccessRightsAuthorizeStep = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(AccessRightsAuthorizeStep) || AccessRightsAuthorizeStep;
+    var _AccessRightsAuthorizeStep = AccessRightsAuthorizeStep;
+    AccessRightsAuthorizeStep = _aureliaDependencyInjection.inject(_session.Session, _logger.Logger)(AccessRightsAuthorizeStep) || AccessRightsAuthorizeStep;
     return AccessRightsAuthorizeStep;
   })();
 

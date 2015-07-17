@@ -30,9 +30,7 @@ System.register(['aurelia-dependency-injection', './session', './logger', './loc
           this.loginRoute = Config.routerAuthStepOpts.loginRoute;
         }
 
-        var _RolesAuthorizeStep = RolesAuthorizeStep;
-
-        _RolesAuthorizeStep.prototype.run = function run(routingContext, next) {
+        RolesAuthorizeStep.prototype.run = function run(routingContext, next) {
           var _this = this;
 
           if (!this.session.isUserLoggedIn() && routingContext.nextInstruction.config.route !== this.loginRoute) {
@@ -56,6 +54,7 @@ System.register(['aurelia-dependency-injection', './session', './logger', './loc
           return next();
         };
 
+        var _RolesAuthorizeStep = RolesAuthorizeStep;
         RolesAuthorizeStep = inject(Session, Logger)(RolesAuthorizeStep) || RolesAuthorizeStep;
         return RolesAuthorizeStep;
       })();
@@ -72,9 +71,7 @@ System.register(['aurelia-dependency-injection', './session', './logger', './loc
           this.loginRoute = Config.routerAuthStepOpts.loginRoute;
         }
 
-        var _AccessRightsAuthorizeStep = AccessRightsAuthorizeStep;
-
-        _AccessRightsAuthorizeStep.prototype.run = function run(routingContext, next) {
+        AccessRightsAuthorizeStep.prototype.run = function run(routingContext, next) {
           if (!this.session.isUserLoggedIn() && routingContext.nextInstruction.config.route !== this.loginRoute) {
             this.logger.warn(this.locale.translate('pleaseLogin'));
             return next.cancel(new Redirect(this.loginRoute));
@@ -98,6 +95,7 @@ System.register(['aurelia-dependency-injection', './session', './logger', './loc
           return next();
         };
 
+        var _AccessRightsAuthorizeStep = AccessRightsAuthorizeStep;
         AccessRightsAuthorizeStep = inject(Session, Logger)(AccessRightsAuthorizeStep) || AccessRightsAuthorizeStep;
         return AccessRightsAuthorizeStep;
       })();

@@ -22,15 +22,19 @@ var _locale = require('./locale');
 
 var _config = require('./config');
 
+var _loadingMask = require('./loadingMask');
+
 var Http = (function () {
-  function Http(session, logger) {
+  function Http(session, logger, loadingMask) {
     _classCallCheck(this, _Http);
 
     this.session = session;
     this.logger = logger;
+    this.loadingMask = loadingMask;
     this.authHttp = undefined;
     this.locale = _locale.Locale.Repository['default'];
 
+    this.requestsCount = 0;
     this.host = _config.Config.httpOpts.serviceHost;
     this.origin = this.host + _config.Config.httpOpts.serviceApiPrefix;
     this.authOrigin = _config.Config.httpOpts.authHost;
@@ -42,18 +46,29 @@ var Http = (function () {
     }
   }
 
-  var _Http = Http;
+  Http.prototype._hideLoadingMask = function _hideLoadingMask() {
+    if (this.requestsCount === 0) {
+      this.loadingMask.hide();
+    }
+  };
 
-  _Http.prototype.get = function get(url) {
+  Http.prototype.get = function get(url) {
+    var _this = this;
+
+    this.loadingMask.show();
     var promise = this.authHttp.get(url).then(function (response) {
+      _this._hideLoadingMask();
       return JSON.parse(response.response);
     });
-    promise['catch'](this.errorHandler.bind(this));
+    promise['catch'](function () {
+      _this._hideLoadingMask();
+      _this.errorHandler.bind(_this);
+    });
     return promise;
   };
 
-  _Http.prototype.post = function post(url) {
-    var content = arguments[1] === undefined ? {} : arguments[1];
+  Http.prototype.post = function post(url) {
+    var content = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
     var promise = this.authHttp.post(url, content).then(function (response) {
       if (response.response !== '') {
@@ -65,31 +80,31 @@ var Http = (function () {
     return promise;
   };
 
-  _Http.prototype.put = function put(url) {
-    var content = arguments[1] === undefined ? {} : arguments[1];
+  Http.prototype.put = function put(url) {
+    var content = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
     var promise = this.authHttp.put(url, content);
     promise['catch'](this.errorHandler.bind(this));
     return promise;
   };
 
-  _Http.prototype['delete'] = function _delete(url) {
+  Http.prototype['delete'] = function _delete(url) {
     var promise = this.authHttp['delete'](url);
     promise['catch'](this.errorHandler.bind(this));
     return promise;
   };
 
-  _Http.prototype.multipartFormPost = function multipartFormPost(url, data) {
+  Http.prototype.multipartFormPost = function multipartFormPost(url, data) {
     var requestUrl = this.origin + url;
     return this.multipartForm(requestUrl, data, 'POST');
   };
 
-  _Http.prototype.multipartFormPut = function multipartFormPut(url, data) {
+  Http.prototype.multipartFormPut = function multipartFormPut(url, data) {
     var requestUrl = this.origin + url;
     return this.multipartForm(requestUrl, data, 'PUT');
   };
 
-  _Http.prototype.multipartForm = function multipartForm(url, data, method) {
+  Http.prototype.multipartForm = function multipartForm(url, data, method) {
     var req = _jquery2['default'].ajax({
       url: url,
       data: data,
@@ -107,23 +122,23 @@ var Http = (function () {
     })['catch'](this.errorHandler.bind(this));
   };
 
-  _Http.prototype.postDownloadFile = function postDownloadFile(url, data) {
+  Http.prototype.postDownloadFile = function postDownloadFile(url, data) {
     return this.downloadFile(url, 'POST', data);
   };
 
-  _Http.prototype.getDownloadFile = function getDownloadFile(url) {
+  Http.prototype.getDownloadFile = function getDownloadFile(url) {
     return this.downloadFile(url, 'GET');
   };
 
-  _Http.prototype.downloadFile = function downloadFile(url, method, data) {
-    var _this = this;
+  Http.prototype.downloadFile = function downloadFile(url, method, data) {
+    var _this2 = this;
 
     var urlAddress = this.origin + url;
     var authHeaderValue = 'Bearer ' + this.token;
     var promise = new Promise(function (resolve, reject) {
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.open(method, urlAddress, true);
-      xmlhttp.timeout = _this.requestTimeout;
+      xmlhttp.timeout = _this2.requestTimeout;
       xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
       xmlhttp.setRequestHeader('Authorization', authHeaderValue);
       xmlhttp.responseType = 'blob';
@@ -139,10 +154,10 @@ var Http = (function () {
         var url = windowUrl.createObjectURL(blob);
         var filename = this.getResponseHeader('Content-Disposition').match(/^attachment; filename=(.+)/)[1];
 
-        var anchor = (0, _jquery2['default'])('<a></a>');
+        var anchor = _jquery2['default']('<a></a>');
         anchor.prop('href', url);
         anchor.prop('download', filename);
-        (0, _jquery2['default'])('body').append(anchor);
+        _jquery2['default']('body').append(anchor);
         anchor.get(0).click();
         windowUrl.revokeObjectURL(url);
         anchor.remove();
@@ -171,7 +186,7 @@ var Http = (function () {
     return promise;
   };
 
-  _Http.prototype.loginBasicAuth = function loginBasicAuth(email, pass) {
+  Http.prototype.loginBasicAuth = function loginBasicAuth(email, pass) {
     var client = new _aureliaHttpClient.HttpClient();
     var encodedData = window.btoa(email + ':' + pass);
     var promise = client.createRequest('token').asGet().withBaseUrl(this.authOrigin).withHeader('Authorization', 'Basic ' + encodedData).send();
@@ -181,8 +196,8 @@ var Http = (function () {
     return promise;
   };
 
-  _Http.prototype.loginResourceOwner = function loginResourceOwner(email, pass) {
-    var _this2 = this;
+  Http.prototype.loginResourceOwner = function loginResourceOwner(email, pass) {
+    var _this3 = this;
 
     var data = {
       grant_type: 'password',
@@ -191,7 +206,7 @@ var Http = (function () {
     };
 
     var client = new _aureliaHttpClient.HttpClient().configure(function (x) {
-      x.withBaseUrl(_this2.authOrigin);
+      x.withBaseUrl(_this3.authOrigin);
       x.withHeader('Content-Type', 'application/x-www-form-urlencoded');
     });
 
@@ -202,30 +217,30 @@ var Http = (function () {
     return promise;
   };
 
-  _Http.prototype.initAuthHttp = function initAuthHttp(token) {
-    var _this3 = this;
+  Http.prototype.initAuthHttp = function initAuthHttp(token) {
+    var _this4 = this;
 
     this.token = token;
     this.authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
-      x.withBaseUrl(_this3.origin);
-      x.withHeader('Authorization', 'Bearer ' + _this3.token);
+      x.withBaseUrl(_this4.origin);
+      x.withHeader('Authorization', 'Bearer ' + _this4.token);
       x.withHeader('Content-Type', 'application/json');
     });
   };
 
-  _Http.prototype.getAuthHttpFor = function getAuthHttpFor(hostName) {
-    var _this4 = this;
+  Http.prototype.getAuthHttpFor = function getAuthHttpFor(hostName) {
+    var _this5 = this;
 
     var authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
-      x.withBaseUrl(_this4.hosts[hostName]);
-      x.withHeader('Authorization', 'Bearer ' + _this4.token);
+      x.withBaseUrl(_this5.hosts[hostName]);
+      x.withHeader('Authorization', 'Bearer ' + _this5.token);
       x.withHeader('Content-Type', 'application/json');
     });
 
     return authHttp;
   };
 
-  _Http.prototype._convertToArray = function _convertToArray(value) {
+  Http.prototype._convertToArray = function _convertToArray(value) {
     var result = value || [];
     if (typeof result === 'string') {
       return result.split(',');
@@ -234,7 +249,7 @@ var Http = (function () {
     return result;
   };
 
-  _Http.prototype.loginHandle = function loginHandle(response) {
+  Http.prototype.loginHandle = function loginHandle(response) {
     var data = JSON.parse(response.response);
     var token = data.access_token;
     this.initAuthHttp(token);
@@ -253,7 +268,7 @@ var Http = (function () {
     });
   };
 
-  _Http.prototype.errorHandler = function errorHandler(response) {
+  Http.prototype.errorHandler = function errorHandler(response) {
     if (response.statusCode === 401) {
       this.logger.warn(this.locale.translate('sessionTimedOut'));
     } else if (response.statusCode === 403) {
@@ -267,7 +282,8 @@ var Http = (function () {
     }
   };
 
-  Http = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(Http) || Http;
+  var _Http = Http;
+  Http = _aureliaDependencyInjection.inject(_session.Session, _logger.Logger, _loadingMask.LoadingMask)(Http) || Http;
   return Http;
 })();
 
