@@ -28,8 +28,16 @@ export class Http {
     }
   }
 
-  get(url) {
-    const promise = this.authHttp.get(url).then(response => {
+  get(url, data) {
+    let urlWithProps = url;
+    if (data !== undefined) {
+      let props = Object.keys(data).map(function (key) {
+        return '' + key + '=' + data[key];
+      }).join('&');
+
+      urlWithProps  += '?' + props;
+    }
+    const promise = this.authHttp.get(urlWithProps).then(response => {
       return JSON.parse(response.response)
     });
     promise.catch(this.errorHandler.bind(this));

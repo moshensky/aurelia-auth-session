@@ -44,8 +44,16 @@ System.register(['aurelia-http-client', 'jquery', 'aurelia-dependency-injection'
 
         var _Http = Http;
 
-        _Http.prototype.get = function get(url) {
-          var promise = this.authHttp.get(url).then(function (response) {
+        _Http.prototype.get = function get(url, data) {
+          var urlWithProps = url;
+          if (data !== undefined) {
+            var props = Object.keys(data).map(function (key) {
+              return '' + key + '=' + data[key];
+            }).join('&');
+
+            urlWithProps += '?' + props;
+          }
+          var promise = this.authHttp.get(urlWithProps).then(function (response) {
             return JSON.parse(response.response);
           });
           promise['catch'](this.errorHandler.bind(this));
