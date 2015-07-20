@@ -31,49 +31,54 @@ export class Http {
     }
   }
 
+  _showLoadingMask() {
+    this.requestsCount += 1;
+    this.loadingMask.show();
+  }
+
   _hideLoadingMask() {
-    if(this.requestsCount === 0) {
+    this.requestsCount -= 1;
+    if (this.requestsCount === 0) {
       this.loadingMask.hide();
+    } else if (this.requestsCount < 0){
+      throw new Exception("Ups... This should never happend! Fix it Luke!");
     }
   }
 
   get(url) {
-    this.loadingMask.show();
+    this._showLoadingMask();
     const promise = this.authHttp.get(url).then(response => {
       this._hideLoadingMask();
       return JSON.parse(response.response)
     });
-    promise.catch(() => {
-      this._hideLoadingMask();
-      this.errorHandler.bind(this);
-    });
+    promise.catch(this.errorHandler.bind(this));
     return promise;
   }
 
   post(url, content = {}) {
-    this.loadingMask.show();
+    this._showLoadingMask();
     const promise = this.authHttp.post(url, content).then(response => {
+      this._hideLoadingMask();
       if (response.response !== "") {
         return JSON.parse(response.response);
       }
     });
-    promise.catch(() => { 
-      this.errorHandler.bind(this);
-      this._hideLoadingMask();
-    });
+    promise.catch(this.errorHandler.bind(this));
 
     return promise;
   }
 
 
   put(url, content = {}) {
-    const promise = this.authHttp.put(url, content);
+    this._showLoadingMask();
+    const promise = this.authHttp.put(url, content).then(response => this._hideLoadingMask());
     promise.catch(this.errorHandler.bind(this));
     return promise;
   }
 
   delete(url) {
-    const promise = this.authHttp.delete(url);
+    this._showLoadingMask();
+    const promise = this.authHttp.delete(url).then(response => this._hideLoadingMask());
     promise.catch(this.errorHandler.bind(this));
     return promise;
   }
@@ -89,6 +94,8 @@ export class Http {
   }
 
   multipartForm(url, data, method) {
+    this._showLoadingMask();
+    var self = this;
     var req = $.ajax({
       url: url,
       data: data,
@@ -103,6 +110,7 @@ export class Http {
     return new Promise(function (resolve, reject) {
       req.done(resolve);
       req.fail(reject);
+      self._hideLoadingMask();
     }).catch(this.errorHandler.bind(this));
   }
 
@@ -115,6 +123,7 @@ export class Http {
   }
 
   downloadFile(url, method, data) {
+    this._showLoadingMask();
     const urlAddress = this.origin + url;
     const authHeaderValue = `Bearer ${this.token}`;
     const promise = new Promise((resolve, reject) => {
@@ -152,7 +161,12 @@ export class Http {
       xmlhttp.addEventListener("error", () => {
         reject();
       });
-      xmlhttp.addEventListener("load", () => { resolve(); });
+      
+      xmlhttp.addEventListener("load", () => { 
+        resolve(); 
+        this._hideLoadingMask(); 
+      });
+
       if (method === 'GET') {
         xmlhttp.send();
       } else if (method === 'POST') {
@@ -174,13 +188,17 @@ export class Http {
       .withBaseUrl(this.authOrigin)
       .withHeader('Authorization', 'Basic ' + encodedData)
       .send();
-    promise.then(this.loginHandle.bind(this))
+    promise.then(() => {
+      this._hideLoadingMask();
+      this.loginHandle.bind(this);
+    })
     promise.catch(this.errorHandler.bind(this));
 
     return promise;
   }
 
   loginResourceOwner(email, pass) {
+    this._showLoadingMask();
     let data = {
       grant_type: 'password',
       username: email,
@@ -229,6 +247,7 @@ export class Http {
   }
 
   loginHandle(response) {
+    this._hideLoadingMask();
     const data = JSON.parse(response.response);
     let token = data.access_token;
     this.initAuthHttp(token);
@@ -249,6 +268,7 @@ export class Http {
 
   // TODO: use as in aurelia-validation
   errorHandler(response) {
+    this._hideLoadingMask();
     if (response.statusCode === 401) {
       this.logger.warn(this.locale.translate('sessionTimedOut'));
     } else if (response.statusCode === 403) {

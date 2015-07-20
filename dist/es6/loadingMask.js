@@ -1,19 +1,19 @@
 import $ from 'jquery';
-//import {Resources} from './resources/en-US';
+import {Locale} from './locale';
 
 export class LoadingMask {
-  constructor() {
+  constructor(resources) {
     this.loadingMask = undefined;
     this.dimScreen = undefined;
     this.dialog = undefined;
     this.loadingTitle = undefined;
     this.title = undefined;
+    this.locale = Locale.Repository.default;
     this._createLoadingMask();
   }
 
   _createLoadingMask() {
-    //todo: get from resources file
-    this.title = "Loading";
+    this.title = this.locale.translate('loading');
     this.dimScreen = '<div id="loadingMask" class="spinner"><div class="loadingTitle">' + this.title +'</div><div class="mask"></div></div>';
     $('body').append(this.dimScreen);
     this.loadingMask = $('#loadingMask');

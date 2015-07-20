@@ -1,17 +1,19 @@
-System.register(['jquery'], function (_export) {
+System.register(['jquery', './locale'], function (_export) {
   'use strict';
 
-  var $, LoadingMask;
+  var $, Locale, LoadingMask;
 
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
   return {
     setters: [function (_jquery) {
       $ = _jquery['default'];
+    }, function (_locale) {
+      Locale = _locale.Locale;
     }],
     execute: function () {
       LoadingMask = (function () {
-        function LoadingMask() {
+        function LoadingMask(resources) {
           _classCallCheck(this, LoadingMask);
 
           this.loadingMask = undefined;
@@ -19,11 +21,12 @@ System.register(['jquery'], function (_export) {
           this.dialog = undefined;
           this.loadingTitle = undefined;
           this.title = undefined;
+          this.locale = Locale.Repository['default'];
           this._createLoadingMask();
         }
 
         LoadingMask.prototype._createLoadingMask = function _createLoadingMask() {
-          this.title = 'Loading';
+          this.title = this.locale.translate('loading');
           this.dimScreen = '<div id="loadingMask" class="spinner"><div class="loadingTitle">' + this.title + '</div><div class="mask"></div></div>';
           $('body').append(this.dimScreen);
           this.loadingMask = $('#loadingMask');

@@ -1,4 +1,4 @@
-define(['exports', 'jquery'], function (exports, _jquery) {
+define(['exports', 'jquery', './locale'], function (exports, _jquery, _locale) {
   'use strict';
 
   exports.__esModule = true;
@@ -10,7 +10,7 @@ define(['exports', 'jquery'], function (exports, _jquery) {
   var _$ = _interopRequireDefault(_jquery);
 
   var LoadingMask = (function () {
-    function LoadingMask() {
+    function LoadingMask(resources) {
       _classCallCheck(this, LoadingMask);
 
       this.loadingMask = undefined;
@@ -18,11 +18,12 @@ define(['exports', 'jquery'], function (exports, _jquery) {
       this.dialog = undefined;
       this.loadingTitle = undefined;
       this.title = undefined;
+      this.locale = _locale.Locale.Repository['default'];
       this._createLoadingMask();
     }
 
     LoadingMask.prototype._createLoadingMask = function _createLoadingMask() {
-      this.title = 'Loading';
+      this.title = this.locale.translate('loading');
       this.dimScreen = '<div id="loadingMask" class="spinner"><div class="loadingTitle">' + this.title + '</div><div class="mask"></div></div>';
       _$['default']('body').append(this.dimScreen);
       this.loadingMask = _$['default']('#loadingMask');

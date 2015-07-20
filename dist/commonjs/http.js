@@ -46,31 +46,40 @@ var Http = (function () {
     }
   }
 
+  Http.prototype._showLoadingMask = function _showLoadingMask() {
+    this.requestsCount += 1;
+    this.loadingMask.show();
+  };
+
   Http.prototype._hideLoadingMask = function _hideLoadingMask() {
+    this.requestsCount -= 1;
     if (this.requestsCount === 0) {
       this.loadingMask.hide();
+    } else if (this.requestsCount < 0) {
+      throw new Exception('Ups... This should never happend! Fix it Luke!');
     }
   };
 
   Http.prototype.get = function get(url) {
     var _this = this;
 
-    this.loadingMask.show();
+    this._showLoadingMask();
     var promise = this.authHttp.get(url).then(function (response) {
       _this._hideLoadingMask();
       return JSON.parse(response.response);
     });
-    promise['catch'](function () {
-      _this._hideLoadingMask();
-      _this.errorHandler.bind(_this);
-    });
+    promise['catch'](this.errorHandler.bind(this));
     return promise;
   };
 
   Http.prototype.post = function post(url) {
+    var _this2 = this;
+
     var content = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
+    this._showLoadingMask();
     var promise = this.authHttp.post(url, content).then(function (response) {
+      _this2._hideLoadingMask();
       if (response.response !== '') {
         return JSON.parse(response.response);
       }
@@ -81,15 +90,25 @@ var Http = (function () {
   };
 
   Http.prototype.put = function put(url) {
+    var _this3 = this;
+
     var content = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-    var promise = this.authHttp.put(url, content);
+    this._showLoadingMask();
+    var promise = this.authHttp.put(url, content).then(function (response) {
+      return _this3._hideLoadingMask();
+    });
     promise['catch'](this.errorHandler.bind(this));
     return promise;
   };
 
   Http.prototype['delete'] = function _delete(url) {
-    var promise = this.authHttp['delete'](url);
+    var _this4 = this;
+
+    this._showLoadingMask();
+    var promise = this.authHttp['delete'](url).then(function (response) {
+      return _this4._hideLoadingMask();
+    });
     promise['catch'](this.errorHandler.bind(this));
     return promise;
   };
@@ -105,6 +124,8 @@ var Http = (function () {
   };
 
   Http.prototype.multipartForm = function multipartForm(url, data, method) {
+    this._showLoadingMask();
+    var self = this;
     var req = _jquery2['default'].ajax({
       url: url,
       data: data,
@@ -119,6 +140,7 @@ var Http = (function () {
     return new Promise(function (resolve, reject) {
       req.done(resolve);
       req.fail(reject);
+      self._hideLoadingMask();
     })['catch'](this.errorHandler.bind(this));
   };
 
@@ -131,14 +153,15 @@ var Http = (function () {
   };
 
   Http.prototype.downloadFile = function downloadFile(url, method, data) {
-    var _this2 = this;
+    var _this5 = this;
 
+    this._showLoadingMask();
     var urlAddress = this.origin + url;
     var authHeaderValue = 'Bearer ' + this.token;
     var promise = new Promise(function (resolve, reject) {
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.open(method, urlAddress, true);
-      xmlhttp.timeout = _this2.requestTimeout;
+      xmlhttp.timeout = _this5.requestTimeout;
       xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
       xmlhttp.setRequestHeader('Authorization', authHeaderValue);
       xmlhttp.responseType = 'blob';
@@ -170,9 +193,12 @@ var Http = (function () {
       xmlhttp.addEventListener('error', function () {
         reject();
       });
+
       xmlhttp.addEventListener('load', function () {
         resolve();
+        _this5._hideLoadingMask();
       });
+
       if (method === 'GET') {
         xmlhttp.send();
       } else if (method === 'POST') {
@@ -187,18 +213,24 @@ var Http = (function () {
   };
 
   Http.prototype.loginBasicAuth = function loginBasicAuth(email, pass) {
+    var _this6 = this;
+
     var client = new _aureliaHttpClient.HttpClient();
     var encodedData = window.btoa(email + ':' + pass);
     var promise = client.createRequest('token').asGet().withBaseUrl(this.authOrigin).withHeader('Authorization', 'Basic ' + encodedData).send();
-    promise.then(this.loginHandle.bind(this));
+    promise.then(function () {
+      _this6._hideLoadingMask();
+      _this6.loginHandle.bind(_this6);
+    });
     promise['catch'](this.errorHandler.bind(this));
 
     return promise;
   };
 
   Http.prototype.loginResourceOwner = function loginResourceOwner(email, pass) {
-    var _this3 = this;
+    var _this7 = this;
 
+    this._showLoadingMask();
     var data = {
       grant_type: 'password',
       username: email,
@@ -206,7 +238,7 @@ var Http = (function () {
     };
 
     var client = new _aureliaHttpClient.HttpClient().configure(function (x) {
-      x.withBaseUrl(_this3.authOrigin);
+      x.withBaseUrl(_this7.authOrigin);
       x.withHeader('Content-Type', 'application/x-www-form-urlencoded');
     });
 
@@ -218,22 +250,22 @@ var Http = (function () {
   };
 
   Http.prototype.initAuthHttp = function initAuthHttp(token) {
-    var _this4 = this;
+    var _this8 = this;
 
     this.token = token;
     this.authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
-      x.withBaseUrl(_this4.origin);
-      x.withHeader('Authorization', 'Bearer ' + _this4.token);
+      x.withBaseUrl(_this8.origin);
+      x.withHeader('Authorization', 'Bearer ' + _this8.token);
       x.withHeader('Content-Type', 'application/json');
     });
   };
 
   Http.prototype.getAuthHttpFor = function getAuthHttpFor(hostName) {
-    var _this5 = this;
+    var _this9 = this;
 
     var authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
-      x.withBaseUrl(_this5.hosts[hostName]);
-      x.withHeader('Authorization', 'Bearer ' + _this5.token);
+      x.withBaseUrl(_this9.hosts[hostName]);
+      x.withHeader('Authorization', 'Bearer ' + _this9.token);
       x.withHeader('Content-Type', 'application/json');
     });
 
@@ -250,6 +282,7 @@ var Http = (function () {
   };
 
   Http.prototype.loginHandle = function loginHandle(response) {
+    this._hideLoadingMask();
     var data = JSON.parse(response.response);
     var token = data.access_token;
     this.initAuthHttp(token);
@@ -269,6 +302,7 @@ var Http = (function () {
   };
 
   Http.prototype.errorHandler = function errorHandler(response) {
+    this._hideLoadingMask();
     if (response.statusCode === 401) {
       this.logger.warn(this.locale.translate('sessionTimedOut'));
     } else if (response.statusCode === 403) {

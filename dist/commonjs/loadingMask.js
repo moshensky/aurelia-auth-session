@@ -10,8 +10,10 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _locale = require('./locale');
+
 var LoadingMask = (function () {
-  function LoadingMask() {
+  function LoadingMask(resources) {
     _classCallCheck(this, LoadingMask);
 
     this.loadingMask = undefined;
@@ -19,11 +21,12 @@ var LoadingMask = (function () {
     this.dialog = undefined;
     this.loadingTitle = undefined;
     this.title = undefined;
+    this.locale = _locale.Locale.Repository['default'];
     this._createLoadingMask();
   }
 
   LoadingMask.prototype._createLoadingMask = function _createLoadingMask() {
-    this.title = 'Loading';
+    this.title = this.locale.translate('loading');
     this.dimScreen = '<div id="loadingMask" class="spinner"><div class="loadingTitle">' + this.title + '</div><div class="mask"></div></div>';
     _jquery2['default']('body').append(this.dimScreen);
     this.loadingMask = _jquery2['default']('#loadingMask');
