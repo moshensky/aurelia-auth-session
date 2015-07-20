@@ -51,14 +51,14 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
 
     _Http.prototype._hideLoadingMask = function _hideLoadingMask() {
       this.requestsCount -= 1;
-      if (this.requestsCount === 0) {
+      if (this.requestsCount <= 0) {
         if (this._queryTimeout) {
           window.clearTimeout(this._queryTimeout);
         } else {
           this.loadingMask.hide();
         }
-      } else if (this.requestsCount < 0) {
-        throw new Exception('Ups... This should never happend! Fix it Luke!');
+
+        this.requestsCount = 0;
       }
     };
 
