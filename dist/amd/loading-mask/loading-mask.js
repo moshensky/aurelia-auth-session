@@ -1,4 +1,4 @@
-define(['exports', 'jquery', '../locale'], function (exports, _jquery, _locale) {
+define(['exports', 'jquery', './loading-mask.css!', '../locale'], function (exports, _jquery, _loadingMaskCss, _locale) {
   'use strict';
 
   exports.__esModule = true;

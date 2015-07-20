@@ -8,7 +8,7 @@ import {Session} from './session';
 import {Logger} from './logger';
 import {Locale} from './locale';
 import {Config} from './config';
-import {LoadingMask} from './loadingMask/loadingMask';
+import {LoadingMask} from './loading-mask/loading-mask';
 
 @inject(Session, Logger, LoadingMask)
 export class Http {
@@ -50,10 +50,9 @@ export class Http {
     if (this.requestsCount <= 0) {
       if (this._queryTimeout) {
         window.clearTimeout(this._queryTimeout);
-      } else {
-        this.loadingMask.hide();
       }
 
+      this.loadingMask.hide();
       this.requestsCount = 0;
     }
   }

@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import './loading-mask.css!';
 import {Locale} from '../locale';
 
 export class LoadingMask {

@@ -22,7 +22,7 @@ var _locale = require('./locale');
 
 var _config = require('./config');
 
-var _loadingMaskLoadingMask = require('./loadingMask/loadingMask');
+var _loadingMaskLoadingMask = require('./loading-mask/loading-mask');
 
 var Http = (function () {
   function Http(session, logger, loadingMask) {
@@ -69,10 +69,9 @@ var Http = (function () {
     if (this.requestsCount <= 0) {
       if (this._queryTimeout) {
         window.clearTimeout(this._queryTimeout);
-      } else {
-        this.loadingMask.hide();
       }
 
+      this.loadingMask.hide();
       this.requestsCount = 0;
     }
   };

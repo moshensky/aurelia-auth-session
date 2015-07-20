@@ -1,4 +1,4 @@
-define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injection', './session', './logger', './locale', './config', './loadingMask/loadingMask'], function (exports, _aureliaHttpClient, _jquery, _aureliaDependencyInjection, _session, _logger, _locale, _config, _loadingMaskLoadingMask) {
+define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injection', './session', './logger', './locale', './config', './loading-mask/loading-mask'], function (exports, _aureliaHttpClient, _jquery, _aureliaDependencyInjection, _session, _logger, _locale, _config, _loadingMaskLoadingMask) {
   'use strict';
 
   exports.__esModule = true;
@@ -54,10 +54,9 @@ define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injectio
       if (this.requestsCount <= 0) {
         if (this._queryTimeout) {
           window.clearTimeout(this._queryTimeout);
-        } else {
-          this.loadingMask.hide();
         }
 
+        this.loadingMask.hide();
         this.requestsCount = 0;
       }
     };
