@@ -28,9 +28,9 @@ var LoadingMask = (function () {
   LoadingMask.prototype._createLoadingMask = function _createLoadingMask() {
     this.title = this.locale.translate('loading');
     this.dimScreen = '<div id="loadingMask" class="spinner"><div class="loadingTitle">' + this.title + '</div><div class="mask"></div></div>';
-    _jquery2['default']('body').append(this.dimScreen);
-    this.loadingMask = _jquery2['default']('#loadingMask');
-    this.loadingTitle = _jquery2['default']('.loadingTitle').css({
+    (0, _jquery2['default'])('body').append(this.dimScreen);
+    this.loadingMask = (0, _jquery2['default'])('#loadingMask');
+    this.loadingTitle = (0, _jquery2['default'])('.loadingTitle').css({
       color: '#ffffff',
       opacity: 1,
       fontSize: '2.5em',

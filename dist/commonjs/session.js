@@ -28,7 +28,9 @@ var Session = (function () {
     }
   }
 
-  Session.prototype.initUserData = function initUserData() {
+  var _Session = Session;
+
+  _Session.prototype.initUserData = function initUserData() {
     this.userName = null;
     this.userClaims = [];
     this.userRoles = [];
@@ -38,23 +40,23 @@ var Session = (function () {
     this.isBusy = false;
   };
 
-  Session.prototype.setUser = function setUser(data) {
+  _Session.prototype.setUser = function setUser(data) {
     if (data) {
       localStorage[constant.appData] = JSON.stringify(data);
       this.restoreData();
     }
   };
 
-  Session.prototype.clearUser = function clearUser() {
+  _Session.prototype.clearUser = function clearUser() {
     localStorage.clear();
     this.initUserData();
   };
 
-  Session.prototype.userHasAccessRight = function userHasAccessRight(requiredAccessRight) {
+  _Session.prototype.userHasAccessRight = function userHasAccessRight(requiredAccessRight) {
     return this.userAccessRights[requiredAccessRight] === true;
   };
 
-  Session.prototype.userHasAllAccessRights = function userHasAllAccessRights(requiredAccessRights) {
+  _Session.prototype.userHasAllAccessRights = function userHasAllAccessRights(requiredAccessRights) {
     var _this = this;
 
     return requiredAccessRights.every(function (accessRight) {
@@ -62,11 +64,11 @@ var Session = (function () {
     });
   };
 
-  Session.prototype.userHasRole = function userHasRole(requredRole) {
+  _Session.prototype.userHasRole = function userHasRole(requredRole) {
     return this.userRoles[requredRole] === true;
   };
 
-  Session.prototype.userHasAtLeastOneRole = function userHasAtLeastOneRole(requiredRoles) {
+  _Session.prototype.userHasAtLeastOneRole = function userHasAtLeastOneRole(requiredRoles) {
     var _this2 = this;
 
     return requiredRoles.some(function (requiredRole) {
@@ -74,20 +76,20 @@ var Session = (function () {
     });
   };
 
-  Session.prototype.getUserClaim = function getUserClaim(claimType) {
+  _Session.prototype.getUserClaim = function getUserClaim(claimType) {
     return this.userClaims[claimType];
   };
 
-  Session.prototype.isUserLoggedIn = function isUserLoggedIn() {
+  _Session.prototype.isUserLoggedIn = function isUserLoggedIn() {
     return this.isLoggedIn === true;
   };
 
-  Session.prototype.userRemembered = function userRemembered() {
+  _Session.prototype.userRemembered = function userRemembered() {
     var isInLocalStorage = localStorage[constant.appData] !== undefined;
     return isInLocalStorage;
   };
 
-  Session.prototype.restoreData = function restoreData() {
+  _Session.prototype.restoreData = function restoreData() {
     var data = JSON.parse(localStorage[constant.appData]);
 
     this.userName = data.userName;
@@ -110,17 +112,16 @@ var Session = (function () {
     this.router.navigate('');
   };
 
-  Session.prototype.rememberedToken = function rememberedToken() {
+  _Session.prototype.rememberedToken = function rememberedToken() {
     var token = JSON.parse(localStorage[constant.appData]).token;
     return token;
   };
 
-  Session.prototype.getUserName = function getUserName() {
+  _Session.prototype.getUserName = function getUserName() {
     return this.userName;
   };
 
-  var _Session = Session;
-  Session = _aureliaDependencyInjection.inject(_aureliaRouter.Router, _logger.Logger)(Session) || Session;
+  Session = (0, _aureliaDependencyInjection.inject)(_aureliaRouter.Router, _logger.Logger)(Session) || Session;
   return Session;
 })();
 

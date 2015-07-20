@@ -25,9 +25,9 @@ define(['exports', 'jquery', '../locale'], function (exports, _jquery, _locale) 
     LoadingMask.prototype._createLoadingMask = function _createLoadingMask() {
       this.title = this.locale.translate('loading');
       this.dimScreen = '<div id="loadingMask" class="spinner"><div class="loadingTitle">' + this.title + '</div><div class="mask"></div></div>';
-      _$['default']('body').append(this.dimScreen);
-      this.loadingMask = _$['default']('#loadingMask');
-      this.loadingTitle = _$['default']('.loadingTitle').css({
+      (0, _$['default'])('body').append(this.dimScreen);
+      this.loadingMask = (0, _$['default'])('#loadingMask');
+      this.loadingTitle = (0, _$['default'])('.loadingTitle').css({
         color: '#ffffff',
         opacity: 1,
         fontSize: '2.5em',

@@ -24,6 +24,7 @@ export class Http {
     this.origin = this.host + Config.httpOpts.serviceApiPrefix;
     this.authOrigin = Config.httpOpts.authHost;
     this.hosts = Config.httpOpts.hosts || {};
+    this.loadingMaskDelay = Config.httpOpts.loadingMaskDelay || 1000;
     this.requestTimeout = Config.httpOpts.requestTimeout;
 
     if (this.session.userRemembered()) {
@@ -33,14 +34,26 @@ export class Http {
 
   _showLoadingMask() {
     this.requestsCount += 1;
-    this.loadingMask.show();
+    if (this.requestsCount === 1) {
+      if (this.loadingMaskDelay > 0) {
+        this._queryTimeout = window.setTimeout(() => {
+          this.loadingMask.show()
+        }, this.loadingMaskDelay);
+      } else {
+        this.loadingMask.show();
+      }
+    }
   }
 
   _hideLoadingMask() {
     this.requestsCount -= 1;
     if (this.requestsCount === 0) {
-      this.loadingMask.hide();
-    } else if (this.requestsCount < 0){
+      if (this._queryTimeout) {
+        window.clearTimeout(this._queryTimeout);
+      } else {
+        this.loadingMask.hide();
+      }
+    } else if (this.requestsCount < 0) {
       throw new Exception("Ups... This should never happend! Fix it Luke!");
     }
   }
@@ -53,7 +66,7 @@ export class Http {
         return '' + key + '=' + data[key];
       }).join('&');
 
-      urlWithProps  += '?' + props;
+      urlWithProps += '?' + props;
     }
     const promise = this.authHttp.get(urlWithProps).then(response => {
       this._hideLoadingMask();
@@ -141,9 +154,9 @@ export class Http {
       xmlhttp.setRequestHeader('Authorization', authHeaderValue);
       xmlhttp.responseType = "blob";
 
-      xmlhttp.onload = function(oEvent) {
+      xmlhttp.onload = function (oEvent) {
         if (this.status !== 200) {
-          reject({ statusCode: this.status });
+          reject({statusCode: this.status});
           return;
         }
 
@@ -162,14 +175,14 @@ export class Http {
       };
 
       xmlhttp.ontimeout = function () {
-          reject({timeout: true})
+        reject({timeout: true})
       };
 
       xmlhttp.addEventListener("error", () => {
         reject();
       });
-      xmlhttp.addEventListener("load", () => { 
-        resolve(); 
+      xmlhttp.addEventListener("load", () => {
+        resolve();
         this._hideLoadingMask();
       });
       if (method === 'GET') {
@@ -217,7 +230,7 @@ export class Http {
     promise.then(this.loginHandle.bind(this))
     promise.catch(this.errorHandler.bind(this));
 
-    return  promise;
+    return promise;
   }
 
   initAuthHttp(token) {
@@ -256,7 +269,7 @@ export class Http {
 
     let claims = data.userClaims || [];
     if (typeof claims === 'string') {
-      claims = JSON.parse(claims); 
+      claims = JSON.parse(claims);
     }
 
     this.session.setUser({
