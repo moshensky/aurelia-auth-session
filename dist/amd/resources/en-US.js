@@ -10,7 +10,8 @@ define(['exports'], function (exports) {
       requestTimeout: 'Request Timeout!',
       notAuthorized: 'You are not authorized!',
       pleaseLogin: 'Please login!',
-      errorHappend: 'Upss... Error!'
+      errorHappend: 'Upss... Error!',
+      loading: 'Loading'
     }
   };
   exports.data = data;

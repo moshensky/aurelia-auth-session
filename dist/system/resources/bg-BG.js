@@ -13,7 +13,8 @@ System.register([], function (_export) {
           requestTimeout: 'Времето за заявката изтече!',
           notAuthorized: 'Отказан достъп!',
           pleaseLogin: 'Моля влезте в системата!',
-          errorHappend: 'Опа...Възникна грешка!'
+          errorHappend: 'Опа...Възникна грешка!',
+          loading: 'Зареждане'
         }
       };
 
