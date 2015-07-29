@@ -28,9 +28,11 @@ export class LoadingMask {
 
   show() {
     this.loadingMask.show();
+    $('body').css('overflow': 'hidden')
   }
 
   hide() {
     this.loadingMask.hide();
+    $('body').css('overflow': 'auto')
   }
 }

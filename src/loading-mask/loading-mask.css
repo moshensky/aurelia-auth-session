@@ -10,6 +10,7 @@
   height: 1em;
   border-radius: 50%;
   position: relative;
+  top: 30%;
   text-indent: -9999em;
   -webkit-animation: spinner 1.3s infinite linear;
   animation: spinner 1.3s infinite linear;
@@ -28,7 +29,6 @@
     top: 0;
     z-index: 2000;
     text-align: center;
-    padding-top: 20%;
     font-size: 25px;
 }
 
