@@ -211,10 +211,11 @@ export class Http {
     return promise;
   }
 
-  loginResourceOwner(email, pass) {
+  loginResourceOwner(email, pass, clientId) {
     this._showLoadingMask();
     let data = {
       grant_type: 'password',
+      client_id: clientId,
       username: email,
       password: pass
     };

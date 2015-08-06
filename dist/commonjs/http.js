@@ -243,12 +243,13 @@ var Http = (function () {
     return promise;
   };
 
-  _Http.prototype.loginResourceOwner = function loginResourceOwner(email, pass) {
+  _Http.prototype.loginResourceOwner = function loginResourceOwner(email, pass, clientId) {
     var _this7 = this;
 
     this._showLoadingMask();
     var data = {
       grant_type: 'password',
+      client_id: clientId,
       username: email,
       password: pass
     };
