@@ -10,7 +10,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _aureliaFetchClient = require('aurelia-fetch-client');
+var _aureliaHttpClient = require('aurelia-http-client');
 
 var _jquery = require('jquery');
 
@@ -250,7 +250,7 @@ var Http = (function () {
   }, {
     key: 'loginBasicAuth',
     value: function loginBasicAuth(email, pass) {
-      var client = new _aureliaFetchClient.HttpClient();
+      var client = new _aureliaHttpClient.HttpClient();
       var encodedData = window.btoa(email + ':' + pass);
       var promise = client.createRequest('token').asGet().withBaseUrl(this.authOrigin).withHeader('Authorization', 'Basic ' + encodedData).send();
       promise.then(this.loginHandle.bind(this));
@@ -271,7 +271,7 @@ var Http = (function () {
         password: pass
       };
 
-      var client = new _aureliaFetchClient.HttpClient().configure(function (x) {
+      var client = new _aureliaHttpClient.HttpClient().configure(function (x) {
         x.withBaseUrl(_this7.authOrigin);
         x.withHeader("Content-Type", "application/x-www-form-urlencoded");
       });
@@ -288,7 +288,7 @@ var Http = (function () {
       var _this8 = this;
 
       this.token = token;
-      this.authHttp = new _aureliaFetchClient.HttpClient().configure(function (x) {
+      this.authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
         x.withBaseUrl(_this8.origin);
         x.withHeader('Authorization', 'Bearer ' + _this8.token);
         x.withHeader("Content-Type", "application/json");
@@ -299,7 +299,7 @@ var Http = (function () {
     value: function getAuthHttpFor(hostName) {
       var _this9 = this;
 
-      var authHttp = new _aureliaFetchClient.HttpClient().configure(function (x) {
+      var authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
         x.withBaseUrl(_this9.hosts[hostName]);
         x.withHeader('Authorization', 'Bearer ' + _this9.token);
         x.withHeader("Content-Type", "application/json");

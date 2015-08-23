@@ -1,4 +1,4 @@
-define(['exports', 'aurelia-fetch-client', 'jquery', 'aurelia-dependency-injection', './session', './logger', './locale', './config', './loading-mask/loading-mask'], function (exports, _aureliaFetchClient, _jquery, _aureliaDependencyInjection, _session, _logger, _locale, _config, _loadingMaskLoadingMask) {
+define(['exports', 'aurelia-http-client', 'jquery', 'aurelia-dependency-injection', './session', './logger', './locale', './config', './loading-mask/loading-mask'], function (exports, _aureliaHttpClient, _jquery, _aureliaDependencyInjection, _session, _logger, _locale, _config, _loadingMaskLoadingMask) {
   'use strict';
 
   Object.defineProperty(exports, '__esModule', {
@@ -235,7 +235,7 @@ define(['exports', 'aurelia-fetch-client', 'jquery', 'aurelia-dependency-injecti
     }, {
       key: 'loginBasicAuth',
       value: function loginBasicAuth(email, pass) {
-        var client = new _aureliaFetchClient.HttpClient();
+        var client = new _aureliaHttpClient.HttpClient();
         var encodedData = window.btoa(email + ':' + pass);
         var promise = client.createRequest('token').asGet().withBaseUrl(this.authOrigin).withHeader('Authorization', 'Basic ' + encodedData).send();
         promise.then(this.loginHandle.bind(this));
@@ -256,7 +256,7 @@ define(['exports', 'aurelia-fetch-client', 'jquery', 'aurelia-dependency-injecti
           password: pass
         };
 
-        var client = new _aureliaFetchClient.HttpClient().configure(function (x) {
+        var client = new _aureliaHttpClient.HttpClient().configure(function (x) {
           x.withBaseUrl(_this7.authOrigin);
           x.withHeader("Content-Type", "application/x-www-form-urlencoded");
         });
@@ -273,7 +273,7 @@ define(['exports', 'aurelia-fetch-client', 'jquery', 'aurelia-dependency-injecti
         var _this8 = this;
 
         this.token = token;
-        this.authHttp = new _aureliaFetchClient.HttpClient().configure(function (x) {
+        this.authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
           x.withBaseUrl(_this8.origin);
           x.withHeader('Authorization', 'Bearer ' + _this8.token);
           x.withHeader("Content-Type", "application/json");
@@ -284,7 +284,7 @@ define(['exports', 'aurelia-fetch-client', 'jquery', 'aurelia-dependency-injecti
       value: function getAuthHttpFor(hostName) {
         var _this9 = this;
 
-        var authHttp = new _aureliaFetchClient.HttpClient().configure(function (x) {
+        var authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
           x.withBaseUrl(_this9.hosts[hostName]);
           x.withHeader('Authorization', 'Bearer ' + _this9.token);
           x.withHeader("Content-Type", "application/json");

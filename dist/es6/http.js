@@ -1,7 +1,7 @@
 /**
  * Created by moshensky on 6/16/15.
  */
-import {HttpClient} from 'aurelia-fetch-client';
+import {HttpClient} from 'aurelia-http-client';
 import $ from 'jquery';
 import {inject} from 'aurelia-dependency-injection';
 import {Session} from './session';
