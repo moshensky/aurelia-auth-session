@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     jspm: {
       // Edit this to your needs
-      loadFiles: ['src/**/*.js', 'test/**/*.js']
+      loadFiles: ['src/**/*.js', 'test/unit/**/*.js']
     },
 
 
@@ -38,9 +38,6 @@ module.exports = function(config) {
         sourceMap: 'inline',
         modules: 'system',
         moduleIds: false,
-        comments: false,
-        compact: false,
-        stage:2,
         optional: [
           "es7.decorators",
           "es7.classProperties"
