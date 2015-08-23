@@ -6,6 +6,8 @@ module.exports = {
   root: appRoot,
   source: appRoot + '**/*.js',
   html: appRoot + '**/*.html',
+  css: appRoot + '**/*.css',
+  jade: appRoot + '**/*.jade',
   style: 'styles/**/*.css',
   output: 'dist/',
   doc:'./doc',
