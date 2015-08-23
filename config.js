@@ -15,11 +15,21 @@ System.config({
   },
 
   map: {
+    "aurelia-dependency-injection": "github:aurelia/dependency-injection@0.9.2",
     "aurelia-fetch-client": "github:aurelia/fetch-client@0.1.2",
     "babel": "npm:babel-core@5.8.22",
     "babel-runtime": "npm:babel-runtime@5.8.20",
     "core-js": "npm:core-js@1.1.1",
+    "jquery": "github:components/jquery@2.1.4",
+    "github:aurelia/dependency-injection@0.9.2": {
+      "aurelia-logging": "github:aurelia/logging@0.6.4",
+      "aurelia-metadata": "github:aurelia/metadata@0.7.3",
+      "core-js": "npm:core-js@0.9.18"
+    },
     "github:aurelia/fetch-client@0.1.2": {
+      "core-js": "npm:core-js@0.9.18"
+    },
+    "github:aurelia/metadata@0.7.3": {
       "core-js": "npm:core-js@0.9.18"
     },
     "github:jspm/nodelibs-process@0.1.1": {
