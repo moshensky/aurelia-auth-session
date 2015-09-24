@@ -14,7 +14,7 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-require('./loading-mask.css!');
+require('./loading-mask.css!text');
 
 var _locale = require('../locale');
 

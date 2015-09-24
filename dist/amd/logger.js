@@ -1,4 +1,4 @@
-define(['exports', 'CodeSeven/toastr/build/toastr.min.css!', 'CodeSeven/toastr'], function (exports, _CodeSevenToastrBuildToastrMinCss, _CodeSevenToastr) {
+define(['exports', 'CodeSeven/toastr/build/toastr.min.css!text', 'CodeSeven/toastr'], function (exports, _CodeSevenToastrBuildToastrMinCssText, _CodeSevenToastr) {
   'use strict';
 
   Object.defineProperty(exports, '__esModule', {

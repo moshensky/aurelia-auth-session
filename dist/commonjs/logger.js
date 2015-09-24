@@ -10,7 +10,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-require('CodeSeven/toastr/build/toastr.min.css!');
+require('CodeSeven/toastr/build/toastr.min.css!text');
 
 var _CodeSevenToastr = require('CodeSeven/toastr');
 

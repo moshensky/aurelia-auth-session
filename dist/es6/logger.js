@@ -1,7 +1,7 @@
 /**
  * Created by moshensky on 6/16/15.
  */
-import 'CodeSeven/toastr/build/toastr.min.css!';
+import 'CodeSeven/toastr/build/toastr.min.css!text';
 import toastr from 'CodeSeven/toastr';
 
 const defaults = {
