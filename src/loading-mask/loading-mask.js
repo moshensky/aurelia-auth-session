@@ -20,8 +20,8 @@ export class LoadingMask {
     this.loadingTitle = $('.loadingTitle').css({
       color: '#ffffff',
       opacity: 1,
-      fontSize: '2.5em',
-      fontFamily: 'Roboto'
+      fontSize: '2.5em'
+      //fontFamily: 'Roboto'
     });
   }
 
