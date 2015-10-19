@@ -85,6 +85,11 @@ var Config = (function () {
       Config.httpOpts = httpOpts;
     }
   }, {
+    key: 'setLoggerService',
+    value: function setLoggerService(loggerOpts) {
+      Config.loggerOpts = loggerOpts;
+    }
+  }, {
     key: 'routerAuthStep',
     value: function routerAuthStep(opts) {
       Config.routerAuthStepOpts = opts;

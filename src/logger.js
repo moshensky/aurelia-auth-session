@@ -2,6 +2,7 @@
  * Created by moshensky on 6/16/15.
  */
 import toastr from 'CodeSeven/toastr';
+import {Config} from './config';
 
 const defaults = {
   source: 'app',
@@ -39,6 +40,8 @@ export class Logger {
     toastr.options.positionClass = 'toast-bottom-right';
     toastr.options.backgroundpositionClass = 'toast-bottom-right';
     toastr.options.fadeOut = 1000;
+
+    toastr.options = Object.assign({}, Config.loggerOpts || {}, toastr.options);
   }
 
   warn(options) {

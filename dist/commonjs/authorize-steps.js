@@ -30,7 +30,9 @@ var RolesAuthorizeStep = (function () {
     this.loginRoute = _config.Config.routerAuthStepOpts.loginRoute;
   }
 
-  _createClass(RolesAuthorizeStep, [{
+  var _RolesAuthorizeStep = RolesAuthorizeStep;
+
+  _createClass(_RolesAuthorizeStep, [{
     key: 'run',
     value: function run(routingContext, next) {
       var _this = this;
@@ -57,7 +59,6 @@ var RolesAuthorizeStep = (function () {
     }
   }]);
 
-  var _RolesAuthorizeStep = RolesAuthorizeStep;
   RolesAuthorizeStep = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(RolesAuthorizeStep) || RolesAuthorizeStep;
   return RolesAuthorizeStep;
 })();
@@ -74,7 +75,9 @@ var AccessRightsAuthorizeStep = (function () {
     this.loginRoute = _config.Config.routerAuthStepOpts.loginRoute;
   }
 
-  _createClass(AccessRightsAuthorizeStep, [{
+  var _AccessRightsAuthorizeStep = AccessRightsAuthorizeStep;
+
+  _createClass(_AccessRightsAuthorizeStep, [{
     key: 'run',
     value: function run(routingContext, next) {
       if (!this.session.isUserLoggedIn() && routingContext.nextInstruction.config.route !== this.loginRoute) {
@@ -101,7 +104,6 @@ var AccessRightsAuthorizeStep = (function () {
     }
   }]);
 
-  var _AccessRightsAuthorizeStep = AccessRightsAuthorizeStep;
   AccessRightsAuthorizeStep = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger)(AccessRightsAuthorizeStep) || AccessRightsAuthorizeStep;
   return AccessRightsAuthorizeStep;
 })();

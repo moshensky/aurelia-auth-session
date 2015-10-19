@@ -39,8 +39,7 @@ var LoadingMask = (function () {
       this.loadingTitle = (0, _jquery2['default'])('.loadingTitle').css({
         color: '#ffffff',
         opacity: 1,
-        fontSize: '2.5em',
-        fontFamily: 'Roboto'
+        fontSize: '2.5em'
       });
     }
   }, {

@@ -10,11 +10,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-require('CodeSeven/toastr/build/toastr.min.css!text');
-
 var _CodeSevenToastr = require('CodeSeven/toastr');
 
 var _CodeSevenToastr2 = _interopRequireDefault(_CodeSevenToastr);
+
+var _config = require('./config');
 
 var defaults = {
   source: 'app',
@@ -53,6 +53,8 @@ var Logger = (function () {
     _CodeSevenToastr2['default'].options.positionClass = 'toast-bottom-right';
     _CodeSevenToastr2['default'].options.backgroundpositionClass = 'toast-bottom-right';
     _CodeSevenToastr2['default'].options.fadeOut = 1000;
+
+    _CodeSevenToastr2['default'].options = Object.assign({}, _config.Config.loggerOpts || {}, _CodeSevenToastr2['default'].options);
   }
 
   _createClass(Logger, [{

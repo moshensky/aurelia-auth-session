@@ -59,6 +59,10 @@ export class Config {
     Config.httpOpts = httpOpts;
   }
 
+  setLoggerService(loggerOpts) {
+    Config.loggerOpts = loggerOpts;
+  }
+
   routerAuthStep(opts) {
     Config.routerAuthStepOpts = opts;
   }
