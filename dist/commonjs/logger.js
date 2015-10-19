@@ -49,12 +49,15 @@ var Logger = (function () {
   function Logger() {
     _classCallCheck(this, Logger);
 
-    _CodeSevenToastr2['default'].options.closeButton = true;
-    _CodeSevenToastr2['default'].options.positionClass = 'toast-bottom-right';
-    _CodeSevenToastr2['default'].options.backgroundpositionClass = 'toast-bottom-right';
-    _CodeSevenToastr2['default'].options.fadeOut = 1000;
+    var defOpts = {
+      closeButton: true,
+      positionClass: 'toast-bottom-right',
+      fadeOut: 1000
+    };
 
-    _CodeSevenToastr2['default'].options = Object.assign({}, _config.Config.loggerOpts || {}, _CodeSevenToastr2['default'].options);
+    var configOptions = _config.Config.loggerOpts || {};
+    var options = Object.assign(_CodeSevenToastr2['default'].options, defOpts, configOptions);
+    _CodeSevenToastr2['default'].options = options;
   }
 
   _createClass(Logger, [{

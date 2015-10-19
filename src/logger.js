@@ -36,12 +36,15 @@ function sanitize(options, messageType) {
 
 export class Logger {
   constructor() {
-    toastr.options.closeButton = true;
-    toastr.options.positionClass = 'toast-bottom-right';
-    toastr.options.backgroundpositionClass = 'toast-bottom-right';
-    toastr.options.fadeOut = 1000;
+    let defOpts = {
+      closeButton: true,
+      positionClass: 'toast-bottom-right',
+      fadeOut: 1000
+    };
 
-    toastr.options = Object.assign({}, Config.loggerOpts || {}, toastr.options);
+    let configOptions = Config.loggerOpts || {};
+    let options = Object.assign(toastr.options, defOpts, configOptions);
+    toastr.options = options;
   }
 
   warn(options) {
