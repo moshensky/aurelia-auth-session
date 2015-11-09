@@ -32,9 +32,7 @@ var Session = (function () {
     }
   }
 
-  var _Session = Session;
-
-  _createClass(_Session, [{
+  _createClass(Session, [{
     key: 'initUserData',
     value: function initUserData() {
       this.userName = null;
@@ -140,6 +138,7 @@ var Session = (function () {
     }
   }]);
 
+  var _Session = Session;
   Session = (0, _aureliaDependencyInjection.inject)(_aureliaRouter.Router, _logger.Logger)(Session) || Session;
   return Session;
 })();

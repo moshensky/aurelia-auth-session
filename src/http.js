@@ -113,7 +113,7 @@ export class Http {
   }
 
   multipartForm(url, data, method) {
-    this._showLoadingMask();
+    
     var self = this;
     var req = $.ajax({
       url: url,
@@ -126,10 +126,11 @@ export class Http {
       }
     });
 
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) =>{
+	  this._showLoadingMask();
+	  req.always(this._hideLoadingMask.bind(this));
       req.done(resolve);
       req.fail(reject);
-      self._hideLoadingMask();
     }).catch(this.errorHandler.bind(this));
   }
 
