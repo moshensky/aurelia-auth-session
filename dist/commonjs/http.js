@@ -159,6 +159,7 @@ var Http = (function () {
   }, {
     key: 'multipartForm',
     value: function multipartForm(url, data, method) {
+      var _this6 = this;
 
       var self = this;
       var req = _jquery2['default'].ajax({
@@ -173,8 +174,8 @@ var Http = (function () {
       });
 
       return new Promise(function (resolve, reject) {
-        self._showLoadingMask();
-        req.always(self._hideLoadingMask);
+        _this6._showLoadingMask();
+        req.always(_this6._hideLoadingMask.bind(_this6));
         req.done(resolve);
         req.fail(reject);
       })['catch'](this.errorHandler.bind(this));
@@ -192,7 +193,7 @@ var Http = (function () {
   }, {
     key: 'downloadFile',
     value: function downloadFile(url, method, data) {
-      var _this6 = this;
+      var _this7 = this;
 
       this._showLoadingMask();
       var urlAddress = this.origin + url;
@@ -200,7 +201,7 @@ var Http = (function () {
       var promise = new Promise(function (resolve, reject) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open(method, urlAddress, true);
-        xmlhttp.timeout = _this6.requestTimeout;
+        xmlhttp.timeout = _this7.requestTimeout;
         xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         xmlhttp.setRequestHeader('Authorization', authHeaderValue);
         xmlhttp.responseType = "blob";
@@ -234,7 +235,7 @@ var Http = (function () {
         });
         xmlhttp.addEventListener("load", function () {
           resolve();
-          _this6._hideLoadingMask();
+          _this7._hideLoadingMask();
         });
         if (method === 'GET') {
           xmlhttp.send();
@@ -262,7 +263,7 @@ var Http = (function () {
   }, {
     key: 'loginResourceOwner',
     value: function loginResourceOwner(email, pass, clientId) {
-      var _this7 = this;
+      var _this8 = this;
 
       this._showLoadingMask();
       var data = {
@@ -273,7 +274,7 @@ var Http = (function () {
       };
 
       var client = new _aureliaHttpClient.HttpClient().configure(function (x) {
-        x.withBaseUrl(_this7.authOrigin);
+        x.withBaseUrl(_this8.authOrigin);
         x.withHeader("Content-Type", "application/x-www-form-urlencoded");
       });
 
@@ -286,23 +287,23 @@ var Http = (function () {
   }, {
     key: 'initAuthHttp',
     value: function initAuthHttp(token) {
-      var _this8 = this;
+      var _this9 = this;
 
       this.token = token;
       this.authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
-        x.withBaseUrl(_this8.origin);
-        x.withHeader('Authorization', 'Bearer ' + _this8.token);
+        x.withBaseUrl(_this9.origin);
+        x.withHeader('Authorization', 'Bearer ' + _this9.token);
         x.withHeader("Content-Type", "application/json");
       });
     }
   }, {
     key: 'getAuthHttpFor',
     value: function getAuthHttpFor(hostName) {
-      var _this9 = this;
+      var _this10 = this;
 
       var authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
-        x.withBaseUrl(_this9.hosts[hostName]);
-        x.withHeader('Authorization', 'Bearer ' + _this9.token);
+        x.withBaseUrl(_this10.hosts[hostName]);
+        x.withHeader('Authorization', 'Bearer ' + _this10.token);
         x.withHeader("Content-Type", "application/json");
       });
 

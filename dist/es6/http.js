@@ -126,9 +126,9 @@ export class Http {
       }
     });
 
-    return new Promise(function (resolve, reject) {
-	  self._showLoadingMask();
-	  req.always(self._hideLoadingMask);
+    return new Promise((resolve, reject) =>{
+	  this._showLoadingMask();
+	  req.always(this._hideLoadingMask.bind(this));
       req.done(resolve);
       req.fail(reject);
     }).catch(this.errorHandler.bind(this));
