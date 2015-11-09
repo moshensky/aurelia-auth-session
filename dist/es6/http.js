@@ -127,7 +127,7 @@ export class Http {
     });
 
     return new Promise(function (resolve, reject) {
-	  this._showLoadingMask();
+	  self._showLoadingMask();
 	  req.always(self._hideLoadingMask);
       req.done(resolve);
       req.fail(reject);
