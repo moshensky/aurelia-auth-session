@@ -51,9 +51,7 @@ var Http = (function () {
     }
   }
 
-  var _Http = Http;
-
-  _createClass(_Http, [{
+  _createClass(Http, [{
     key: '_showLoadingMask',
     value: function _showLoadingMask() {
       var _this = this;
@@ -108,12 +106,12 @@ var Http = (function () {
     value: function post(url) {
       var _this3 = this;
 
-      var content = arguments[1] === undefined ? {} : arguments[1];
+      var content = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
       this._showLoadingMask();
       var promise = this.authHttp.post(url, content).then(function (response) {
         _this3._hideLoadingMask();
-        if (response.response !== '') {
+        if (response.response !== "") {
           return JSON.parse(response.response);
         }
       });
@@ -126,7 +124,7 @@ var Http = (function () {
     value: function put(url) {
       var _this4 = this;
 
-      var content = arguments[1] === undefined ? {} : arguments[1];
+      var content = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
       this._showLoadingMask();
       var promise = this.authHttp.put(url, content).then(function (response) {
@@ -161,7 +159,7 @@ var Http = (function () {
   }, {
     key: 'multipartForm',
     value: function multipartForm(url, data, method) {
-      this._showLoadingMask();
+
       var self = this;
       var req = _jquery2['default'].ajax({
         url: url,
@@ -175,9 +173,10 @@ var Http = (function () {
       });
 
       return new Promise(function (resolve, reject) {
+        this._showLoadingMask();
+        req.always(self._hideLoadingMask);
         req.done(resolve);
         req.fail(reject);
-        self._hideLoadingMask();
       })['catch'](this.errorHandler.bind(this));
     }
   }, {
@@ -204,7 +203,7 @@ var Http = (function () {
         xmlhttp.timeout = _this6.requestTimeout;
         xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         xmlhttp.setRequestHeader('Authorization', authHeaderValue);
-        xmlhttp.responseType = 'blob';
+        xmlhttp.responseType = "blob";
 
         xmlhttp.onload = function (oEvent) {
           if (this.status !== 200) {
@@ -230,10 +229,10 @@ var Http = (function () {
           reject({ timeout: true });
         };
 
-        xmlhttp.addEventListener('error', function () {
+        xmlhttp.addEventListener("error", function () {
           reject();
         });
-        xmlhttp.addEventListener('load', function () {
+        xmlhttp.addEventListener("load", function () {
           resolve();
           _this6._hideLoadingMask();
         });
@@ -242,7 +241,7 @@ var Http = (function () {
         } else if (method === 'POST') {
           xmlhttp.send(JSON.stringify(data));
         } else {
-          throw new Error('Unsuported method call!');
+          throw new Error("Unsuported method call!");
         }
       });
 
@@ -275,7 +274,7 @@ var Http = (function () {
 
       var client = new _aureliaHttpClient.HttpClient().configure(function (x) {
         x.withBaseUrl(_this7.authOrigin);
-        x.withHeader('Content-Type', 'application/x-www-form-urlencoded');
+        x.withHeader("Content-Type", "application/x-www-form-urlencoded");
       });
 
       var promise = client.post('token', _jquery2['default'].param(data));
@@ -293,7 +292,7 @@ var Http = (function () {
       this.authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
         x.withBaseUrl(_this8.origin);
         x.withHeader('Authorization', 'Bearer ' + _this8.token);
-        x.withHeader('Content-Type', 'application/json');
+        x.withHeader("Content-Type", "application/json");
       });
     }
   }, {
@@ -304,7 +303,7 @@ var Http = (function () {
       var authHttp = new _aureliaHttpClient.HttpClient().configure(function (x) {
         x.withBaseUrl(_this9.hosts[hostName]);
         x.withHeader('Authorization', 'Bearer ' + _this9.token);
-        x.withHeader('Content-Type', 'application/json');
+        x.withHeader("Content-Type", "application/json");
       });
 
       return authHttp;
@@ -358,6 +357,7 @@ var Http = (function () {
     }
   }]);
 
+  var _Http = Http;
   Http = (0, _aureliaDependencyInjection.inject)(_session.Session, _logger.Logger, _loadingMaskLoadingMask.LoadingMask)(Http) || Http;
   return Http;
 })();
