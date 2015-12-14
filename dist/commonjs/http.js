@@ -89,7 +89,14 @@ var Http = (function () {
       var urlWithProps = url;
       if (data !== undefined) {
         var props = Object.keys(data).map(function (key) {
-          return '' + key + '=' + data[key];
+          var d = data[key];
+          if (Array.isArray(d)) {
+            return d.map(function (value) {
+              return '' + key + '=' + value;
+            }).join('&');
+          } else {
+            return '' + key + '=' + data[key];
+          }
         }).join('&');
 
         urlWithProps += '?' + props;

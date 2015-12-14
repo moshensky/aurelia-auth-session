@@ -62,7 +62,14 @@ export class Http {
     let urlWithProps = url;
     if (data !== undefined) {
       let props = Object.keys(data).map(function (key) {
-        return '' + key + '=' + data[key];
+        let d = data[key];
+        if (Array.isArray(d)) {
+          return d.map(value => {
+            return '' + key + '=' + value
+          }).join('&');
+        } else {
+          return '' + key + '=' + data[key];
+        }
       }).join('&');
 
       urlWithProps += '?' + props;
